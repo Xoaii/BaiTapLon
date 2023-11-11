@@ -5,127 +5,218 @@
     <title>Quản Lý Thư Viện</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
-    <!--<link href="assets/jquery-confirm.min.css" rel="stylesheet" />
-    <script src="assets/jquery-confirm.min.js"></script>-->
-    
-    <script src="jquery.js"></script>
-
+    <script src="assets/jquery.js"></script>
+    <!--dùng của w3school css cho table vì có class do dùng booststrap bị lỏ-->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!--icon timf kiếm-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="assets/jquery-confirm.min.css" rel="stylesheet" />
+    <script src="assets/jquery-confirm.min.js"></script>
+    <link href="assets/reset.css" rel="stylesheet" />
     <link href="assets/myStyle.css" rel="stylesheet" />
     <script src="assets/mycode.js"></script>
 
 </head>
 <body>
-    
-    <!-- Header top -->
-    <div class="header-top">
-        <!-- Logo -->
-        <a href="/">
-            <div class="logo">
-                <img id="libLogo" src="img/pngwing.com.png" />
+
+        <!-- Header -->
+        <header class="header">
+            <div class="main-content">
+                <div class="body">
+                    <!-- Sửa header dưới đây -->
+
+                    <a href="/">
+                        <img src="img/pngwing.com.png" class="logo"/>
+                            
+                             
+                    </a>
+
+                    <nav class="nav">
+                        <ul>
+                            <li class="tab-item active">
+                                <a href="#!">SÁCH</a>
+                            </li>
+                            <li class="tab-item">
+                                <a href="#!">SINH VIÊN</a>
+                            </li>
+                            <li class="tab-item">
+                                <a href="#!">THỦ THƯ</a>
+                            </li>
+                            <li class="tab-item">
+                                <a href="#!">NHÀ CUNG CẤP</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="user primary">Xin chào </div>
+                    <div class="action">
+                        <a href="#!" class="btn sign-up-btn primary hide">Đăng nhập</a>
+                        <a href="#!" class="btn sign-up-btn primary hide">Đăng ký</a>
+                        <a href="#!" class="btn sign-up-btn danger">Đăng xuất</a>
+                    </div>
+
+                    <!-- Sửa header đến đây -->
+                </div>
             </div>
-        </a>
-
-        <!-- Navbar -->
-        <nav class="navbar">
-            <ul class="navbar__list">
-                <li class="navbar__item">
-                    <a href="#!"
-                       class="navbar__link navbar__link--active tablinks" onclick="openTabs(event, 'trangchu') ">TRANG CHỦ</a>   
-                </li>
-                <li class="navbar__item">
-                    <a href="#!" class="navbar__link tablinks" onclick="openTabs(event,'sach')">SÁCH</a>
-                </li>
-                <li class="navbar__item">
-                    <a href="#!" class="navbar__link tablinks" onclick="openTabs(event,'sinhvien')">SINH VIÊN</a>
-                </li>
-                <li class="navbar__item">
-                    <a href="#!" class="navbar__link">Doctors</a>
-                </li>
-            </ul>
-            
-              
-              
-        </nav>
-
-        <!-- Action -->
-        <div class="header-action">
-
-            <button href="#!" class="btn header-action__login" 
-            onclick="document.getElementById('id01').style.display='block'" style="width:auto;">
-                Login
-            </button>
-            <!-- <div id="id01" class="modal">
-  
-                <form class="modal-content animate" action="/action_page.php" method="post">
-                  <div class="imgcontainer">
-                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="img/pngwing.com.png" alt="Avatar" class="avatar">
-                  </div>
-              
-                  <div class="container">
-                    <label for="uname"><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" name="uname" required>
-              
-                    <label for="psw"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="psw" required>
-                      
-                    <button type="submit">Login</button>
-                    <label>
-                      <input type="checkbox" checked="checked" name="remember"> Remember me
-                    </label>
-                  </div>
-              
-                  <div class="container" style="background-color:#f1f1f1">
-                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-                    <span class="psw">Forgot <a href="#">password?</a></span>
-                  </div>
-                </form> -->
-              </div>
-              
-              <!-- <script>
-              // Get the modal
-              var modal = document.getElementById('id01');
-              
-              // When the user clicks anywhere outside of the modal, close it
-              window.onclick = function(event) {
-                  if (event.target == modal) {
-                      modal.style.display = "none";
-                  }
-              }
-              </script> -->
-
-        </div>
-    </div>
-    <div class="main">
-        <!-- slide -->
-        <div class="main" id="sidetab">
-            <div class="btn-group ">
-                <button id="show">Apple</button>
-                <button>Samsung</button>
-                <button>Sony</button>
-              </div>
-
-        </div>
-        <div class="main" id="content">
-            <!-- action tabs -->
-            <div id="trangchu" class="tabcontent hide">
-                <h2>Trang chủ</h2>
-
+        </header>
+        <!-- END HEADER -->
+        <!-- THẺ MAIN chứa toàn bộ nội dung trang web và thanh điều hướng chức năng -->
+        <main class="main row">
+            <!--  =========  ĐIỀU HƯỚNG ================-->
+            <div class="dieu-huong">
+                <div class="head-dieu-huong">
+                    <i class="fa-solid fa-list-check"></i>
+                    <p>TÍNH NĂNG</p>
+                </div>
+                <!-- Điều hướng bảng tin -->
+                <ul class="list-dieu-huong list-pane active">
+                    <li class="item-dieu-huong">
+                        <a href="#tin-tuc">
+                            <i ></i>Tin tức
+                        </a>
+                    </li>
+                    <li class="item-dieu-huong">
+                        <a href="#thong-bao">
+                            <i ></i>Thông
+                            báo
+                        </a>
+                    </li>
+                    <li class="item-dieu-huong">
+                        <a href="#thong-bao">
+                            <i ></i>Thông
+                            báo
+                        </a>
+                    </li>
+                </ul>
+                <!-- Điều hướng Ký túc -->
+                <ul class="list-dieu-huong list-pane">
+                    <li class="item-dieu-huong">
+                        <a href="#k1">
+                                <form class="timkiem">
+                                    <input type="text" placeholder="Search.." name="search">
+                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                </form>                 
+                        </a>
+                    </li>
+                    <li class="item-dieu-huong">
+                        <a href="#k2">
+                            <i ></i> Kí túc
+                            K2
+                        </a>
+                    </li>
+                </ul>
+                <!-- Điều hướng Sinh viên -->
+                <ul class="list-dieu-huong list-pane">
+                    <li class="item-dieu-huong">
+                        <a href="">
+                            <i ></i>Sinh viên
+                            1
+                        </a>
+                    </li>
+                    <li class="item-dieu-huong">
+                        <a href="">
+                            <i ></i>Sinh viên
+                            2
+                        </a>
+                    </li>
+                </ul>
+                <!-- Điều hướng Feedback -->
+                <ul class="list-dieu-huong list-pane">
+                    <li class="item-dieu-huong">
+                        <a href="">
+                            <i ></i>Ý kiến
+                            1
+                        </a>
+                    </li>
+                    <li class="item-dieu-huong">
+                        <a href="">
+                            <i ></i>Ý kiến
+                            2
+                        </a>
+                    </li>
+                </ul>
             </div>
 
-            <div id="sach" class="tabcontent hide">
-                <h1>Sách</h1>
+            <!-- ============= NỘI DUNG =========== -->
+            <div class="noi-dung">
+                <!--========= Bảng tin ========-->
+                <div class="bang-tin tab-pane active" style="height: 3000px">
+                    <div class="container">
+                        <!-- tự tạo thằng này vào trong  -->
+                        <div class="ndbangtin">
+                            <h1>Bảng tin</h1>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Soluta vitae, iusto, quasi autem enim at
+                            corporis vel, dicta amet modi quae fuga sequi
+                            excepturi reiciendis sed. Magnam architecto minus
+                            ipsam eveniet. Quo distinctio, quidem, voluptas,
+                            ipsum assumenda corrupti explicabo rem saepe
+                            voluptatum placeat commodi enim iste voluptates
+                            architecto nihil amet suscipit unde? Nulla sint
+                            atque ad autem labore ipsa. Obcaecati architecto
+                            aliquam accusamus voluptatum ab quia ex, omnis
+                            repellat nihil reiciendis accusantium culpa
+                            assumenda dignissimos sequi eligendi ipsa magni
+                            beatae necessitatibus nesciunt aliquid. Enim alias
+                            molestias at. Distinctio vero at esse, sapiente,
+                            asperiores eaque quidem maxime adipisci ipsam
+                            reiciendis a. Ex porro itaque voluptatem ipsum
+                            reprehenderit, nam fugiat facere eos aut corrupti
+                            modi illum, officia corporis sed cum? Labore
+                            corrupti sapiente ab numquam a, dicta ipsam laborum
+                            placeat nulla culpa odio dolore quod omnis! Quos a
+                            necessitatibus tenetur rem, culpa, dignissimos iste
+                            veritatis voluptatum minima ducimus natus quibusdam
+                            et quam facere quisquam. Maxime ad facilis quisquam
+                            beatae dolorum, excepturi itaque consequatur
+                            similique inventore tempore aperiam architecto eaque
+                            voluptatem sit iste eligendi consectetur unde
+                            quibusdam ullam adipisci nostrum accusantium
+                            placeat. Eligendi animi ullam iusto, nihil est, odit
+                            amet nam cupiditate, repudiandae mollitia vitae
+                            aspernatur. Reiciendis ratione obcaecati modi
+                            ducimus dolores quas pariatur ab aperiam, assumenda
+                            optio officia voluptatum explicabo ullam sapiente
+                            nostrum molestiae atque deleniti nam impedit quod.
+                            Inventore non, dolor nihil ducimus quo perspiciatis
+                            veritatis, pariatur sint architecto incidunt nam
+                            esse sed fugiat? Deleniti impedit velit autem cumque
+                            distinctio veniam laudantium officia molestiae vitae
+                            id vero tenetur perspiciatis dolores nisi
+                            voluptatibus est quibusdam rem et quam enim, libero,
+                            sit fugiat voluptas. Voluptas, enim alias aperiam
+                            ullam esse eum ea in officiis adipisci dolorem?
+                            Sequi vitae distinctio aperiam a assumenda minima
+                            deleniti recusandae totam eos ea saepe, quisquam
+                            fuga aspernatur excepturi et ratione delectus
+                            necessitatibus praesentium maiores veniam fugit,
+                            dolore voluptatem. Lorem ipsum dolor sit, amet
+                            consectetur adipisicing elit. Perferendis,
+                            quibusdam.
+                        </div>
+                    </div>
+                </div>
+                <!--========  ============-->
+                <div class="ky-tuc-xa tab-pane">
+                    <div class="container">
+                        <h1>Ký túc Xá</h1>
+                    </div>
+                </div>
+                <!-- ========= Sinh viên ========= -->
+                <div class="sinh-vien tab-pane">
+                    <div class="container">
+                        <h1>Sinh viên</h1>
+                    </div>
+                </div>
+                <!-- ==========Ý kiến đóng góp ============-->
+                <div class="Y-kien-dong-gop tab-pane">
+                    <div class="container">
+                        <h1>Ý kiến đóng góp</h1>
+                    </div>
+                </div>
             </div>
-            <div id="sinhvien" class="tabcontent hide">
-                <h1>Sinh Viên</h1>
-            </div>
+        </main>
+        <!-- THẺ MAIN -->
 
-
-        </div>
-      
-    </div>
-       
-</body>
+    </body>
 
 </html>
