@@ -5,7 +5,7 @@
     function delete_SinhVien(id, json) {
         var SinhVien;
         for (var item of json.data) {
-            if (item.id == id) {
+            if (item.masv == id) {
                 SinhVien = item;
                 break;
             }
@@ -19,8 +19,9 @@
                     action: function () {
                         var data_gui_di = {
                             action: 'delete_SinhVien',
-                            id: id, //gửi đi id của cty cần xóa: api, sp sẽ làm phần còn lại
+                            masv: id, //gửi đi id của sinh viên cần xóa: api, sp sẽ làm phần còn lại
                         }
+                        console.log(data_gui_di);
                         $.post(api, data_gui_di, function (data) {
                             //đợi data là json string text gửi về
                             var json = JSON.parse(data); //json string text => obj
@@ -40,73 +41,111 @@
         })
     }
     function edit_SinhVien(id, json) {
-    var SinhVien;
-    for (var item of json.data) {
-        if (item.masv == id) {
-            SinhVien = item;
-            break;
+        var SinhVien;
+        for (var item of json.data) {
+            if (item.masv == id) {
+                SinhVien = item;
+                break;
+            }
         }
-    }
 
-    var content = `
-      
+        var content = `
+        
         Họ Tên: <input type="text" id="edit-hoten" value="${SinhVien.hoten}"><br> 
-        Giới Tính:
-        <select id="edit-gioitinh">
-            <option value="Nam" ${SinhVien.gioitinh === 'Nam' ? 'selected' : ''}>Nam</option>
-            <option value="Nữ" ${SinhVien.gioitinh === 'Nữ' ? 'selected' : ''}>Nữ</option>
-            <option value="Khác" ${SinhVien.gioitinh === 'Khác' ? 'selected' : ''}>Khác</option>
-        </select><br> 
+        Giới Tính: <input type="text" id="edit-gioitinh" value="${SinhVien.gioitinh}"><br>
         Địa Chỉ: <input type="text" id="edit-diachi" value="${SinhVien.diachi}"><br> 
         Ngày Sinh: <input type="text" id="edit-ngaysinh" value="${SinhVien.ngaysinh}"><br> 
         Khoa: <input type="text" id="edit-khoa" value="${SinhVien.khoa}"><br> 
-        Lớp : <input type="text" id="edit-lop" value="${SinhVien.lop}"><br> 
+        Lớp: <input type="text" id="edit-lop" value="${SinhVien.lop}"><br> 
         Email: <input type="text" id="edit-email" value="${SinhVien.email}"><br> 
         Password: <input type="text" id="edit-password" value="${SinhVien.password}"><br> 
     `;
 
-    var dialog_edit = $.confirm({
-        title: 'Edit Sinh viên',
-        content: content,
-        columnClass: 'large',
-        
-        buttons: {
-            save: {
-              
-                action: function () {
-                    var data_gui_di = {
-                        action: 'edit_SinhVien',
-                        
-                        hoten: $('#edit-hoten').val(),
-                        gioitinh: $('#edit-gioitinh').val(),
-                        diachi: $('#edit-diachi').val(),
-                        ngaysinh: $('#edit-ngaysinh').val(),
-                        khoa: $('#edit-khoa').val(),
-                        lop: $('#edit-lop').val(),
-                        email: $('#edit-email').val(),
-                        password: $('#edit-password').val(),
-                        
-                    };
+        var dialog_edit = $.confirm({
+            title: 'Edit Sinh viên',
+            content: content,
+            columnClass: 'large',
+            buttons: {
+                save: {
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'edit_SinhVien',
 
-                    $.post(api, data_gui_di, function (data) {
-                        var json = JSON.parse(data);
-                        if (json.ok) {
-                            dialog_edit.close();
-                            cap_nhat_SinhVien();
-                        } else {
-                            alert(json.msg);
-                        }
-                    });
+                            hoten: $('#edit-hoten').val(),
+                            gioitinh: $('#edit-gioitinh').val(),
+                            diachi: $('#edit-diachi').val(),
+                            ngaysinh: $('#edit-ngaysinh').val(),
+                            khoa: $('#edit-khoa').val(),
+                            lop: $('#edit-lop').val(),
+                            email: $('#edit-email').val(),
+                            password: $('#edit-password').val(),
+                            masv: id,
+                        };
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_edit.close();
+                                cap_nhat_SinhVien();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Hủy bỏ'
                 }
-            },
-            cancel: {
-                text: 'Hủy bỏ'
             }
-        }
-    });
-}
+        });
+    }
 
 
+    //function search_SinhVien() {
+    //    var SinhVien;
+    //    for (var item of json.data) {
+    //        if (item.masv == id) {
+    //            SinhVien = item;
+    //            break;
+    //        }
+    //    }
+    //    // Assume you have a target element with the id "target-element"
+    //    var targetElement = $('#thanhtimkiem');
+
+    //    // Your HTML content with the pre-created input
+    //    var content = `
+    //Mã sinh viên: <input type="text" id="edit-hoten" value="${SinhVien.masv}"><br> `;
+
+    //    // Set the HTML content of the target element
+    //    targetElement.html(content);
+
+    //    // Now the target element contains the pre-created inpu
+    //    $.confirm({
+    //        action: function () {
+    //            var data_gui_di = {
+    //                action: 'search_SinhVien',
+    //                masv: id, //gửi đi id của sinh viên cần xóa: api, sp sẽ làm phần còn lại
+    //            };
+    //            console.log(data_gui_di);
+    //            $.post(api, data_gui_di, function (data) {
+    //                //đợi data là json string text gửi về
+    //                var json = JSON.parse(data); //json string text => obj
+    //                if (json.ok) { //dùng obj
+
+    //                    cap_nhat_SinhVien();  //vẽ lại kq mới
+    //                } else {
+    //                    alert(json.msg) // lỗi gì ở trên lo, ta cứ show ra thôi
+    //                }
+    //            });
+    //        }
+
+    //    });
+    // }
+
+
+    
     function cap_nhat_SinhVien() {
         $.post(api,
             {
@@ -229,6 +268,9 @@
     }
     $('.tab-item').click(function () {
         list_SinhVien();
+    });
+    $('.fa-search').click(function () {
+        search_SinhVien();
     });
     
 });

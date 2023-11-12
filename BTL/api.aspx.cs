@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
+using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -21,16 +22,16 @@ namespace BTL
             {
                 case "add_SinhVien":
                 case "edit_SinhVien":
-                    cm.Parameters.Add("@masv", SqlDbType.NVarChar, 255).Value = Request["masv"];
-                    cm.Parameters.Add("@hoten", SqlDbType.NVarChar, 255).Value = Request["hoten"];
+                   
+                    cm.Parameters.Add("@hoten", SqlDbType.NVarChar, 100).Value = Request["hoten"];
                     cm.Parameters.Add("@gioitinh", SqlDbType.NVarChar,100).Value = Request["gioitinh"];
-                    cm.Parameters.Add("@diachi", SqlDbType.NVarChar,255).Value = Request["diachi"];
+                    cm.Parameters.Add("@diachi", SqlDbType.NVarChar, 100).Value = Request["diachi"];
                     cm.Parameters.Add("@ngaysinh", SqlDbType.Date, 100).Value = Request["ngaysinh"];
-                    cm.Parameters.Add("@khoa", SqlDbType.NVarChar, 255).Value = Request["khoa"];
-                    cm.Parameters.Add("@lop", SqlDbType.NVarChar, 255).Value = Request["lop"];
-                    cm.Parameters.Add("@email", SqlDbType.NVarChar, 255).Value = Request["email"];
-                    cm.Parameters.Add("@password", SqlDbType.NVarChar, 255).Value = Request["password"];
-                    cm.Parameters.Add("@del_at", SqlDbType.DateTime, 100).Value = Request["del_at"];
+                    cm.Parameters.Add("@khoa", SqlDbType.NVarChar, 100).Value = Request["khoa"];
+                    cm.Parameters.Add("@lop", SqlDbType.NVarChar, 100).Value = Request["lop"];
+                    cm.Parameters.Add("@email", SqlDbType.NVarChar, 100).Value = Request["email"];
+                    cm.Parameters.Add("@password", SqlDbType.NVarChar, 100).Value = Request["password"];
+                    //cm.Parameters.Add("@del_at", SqlDbType.DateTime, 100).Value = Request["del_at"];
 
                     break;
 
@@ -40,23 +41,26 @@ namespace BTL
             {
                 case "edit_SinhVien":
                 case "delete_SinhVien":
-                    cm.Parameters.Add("@masv", SqlDbType.NVarChar,255).Value = Request["masv"];
+                case "search_SinhVien":
+                    cm.Parameters.Add("@masv", SqlDbType.NVarChar,100).Value = Request["masv"];
                     break;
             }
 
             //thuc thi
             string json = (string)db.Scalar(cm);
-            this.Response.Write(json);
+            Response.Write(json);
         }
         protected void Page_Load(object sender, EventArgs e)
         {
             string action = Request["action"];
             switch (action)
             {
+                case "list_SinhVien":
                 case "add_SinhVien":
                 case "edit_SinhVien":
                 case "delete_SinhVien":
-                case "list_SinhVien":
+                case "search_SinhVien":
+
                     xuly_SinhVien(action);
                     break;
 
