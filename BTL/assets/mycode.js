@@ -270,7 +270,66 @@
         list_SinhVien();
     });
     $('.fa-search').click(function () {
-        search_SinhVien();
+       
+
+        $.post(api, {
+            action: 'search_SinhVien',
+            masv: $('#thanhtimkiem').val(),
+        }, function (data) {
+            // Xử lý dữ liệu sau khi nhận được từ API
+            console.log(data); // In dữ liệu lấy được từ API vào console
+            var json = JSON.parse(data);
+            var thongtintimkiem = "";
+            // Sử dụng hàm confirm để hiển thị dữ liệu lấy được từ API
+            if (json.ok) {
+                thongtintimkiem += `<table class="w3-table-all w3-hoverable">
+                   <thead>
+                   <tr>
+                     <th>STT</th>
+                     <th>Mã Sinh Viên</th>
+                     <th>Họ Tên</th>
+                     <th>Giới Tính</th>
+                     <th>Địa Chỉ</th>
+                     <th>Ngày Sinh</th>
+                     <th>Khoa</th>
+                     <th>Lớp</th>
+                     <th>Email</th>
+                     <th>Password</th>
+                     <th>Sửa/xóa</th>
+                   </tr>
+                   </thead><tbody>`;
+                //duyet json -> noidung_ds_cty_html xịn
+                var stt = 0;
+                for (var SinhVien of json.data) {
+                    //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
+                    var sua_xoa = `<button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${SinhVien.masv}" data-action="edit_SinhVien">Sửa</button>`;
+                    sua_xoa += ` <button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${SinhVien.masv}" data-action="delete_SinhVien">Xóa</button>`;
+                    thongtintimkiem += `
+                     <tr>
+                     <td>${++stt}</td>
+                     <td>${SinhVien.masv}</td>
+                     <td>${SinhVien.hoten}</td>
+                     <td>${SinhVien.gioitinh}</td>
+                     <td>${SinhVien.diachi}</td>
+                     <td>${SinhVien.ngaysinh}</td>
+                     <td>${SinhVien.khoa}</td>
+                     <td>${SinhVien.lop}</td>
+                     <td>${SinhVien.email}</td>
+                     <td>${SinhVien.password}</td>
+                   
+                     <td>${sua_xoa}</td>
+                   </tr>`;
+                }
+
+                thongtintimkiem += "</tbody></table>";
+            } else {
+
+                thongtintimkiem = "không có dữ liệu";
+            }
+            //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
+            $('.ky-tuc-xa').html(thongtintimkiem); //gán html vào thân dialog
+
+        });
     });
     
 });
