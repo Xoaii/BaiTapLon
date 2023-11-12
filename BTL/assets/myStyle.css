@@ -206,27 +206,30 @@ a {
 .container {
     margin: 0 8px;
     background-color: #1E6771;
-    border: 2px solid red;
+    border: 2px ;
 }
 
 /* ============= CẤM ĐỘNG =========== */
 
 
 .ndbangtin {
-    background-color: red;
+    background-color: green;
 }
 .w3-button {
     background-color: #2e80ce;
 }
-/*tim kiem */
-form.timkiem input[type=text] {
-    padding: 9px;
-    font-size: 17px;
-    border: 1px solid grey;
-    float: left;
-    width: 80%;
-    background: #f1f1f1;
+.w3-button:hover{
+    background-color:aquamarine !important;
 }
+    /*tim kiem */
+    form.timkiem input[type=text] {
+        padding: 9px;
+        font-size: 17px;
+        border: 1px solid grey;
+        float: left;
+        width: 80%;
+        background: #f1f1f1;
+    }
 
 form.timkiem button {
     float: left;

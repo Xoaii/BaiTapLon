@@ -39,6 +39,7 @@ namespace BTL
 
             switch (action)
             {
+                case "add_SinhVien":
                 case "edit_SinhVien":
                 case "delete_SinhVien":
                 case "search_SinhVien":

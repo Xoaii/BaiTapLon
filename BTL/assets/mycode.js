@@ -12,10 +12,15 @@
         }
         //xác nhận trước khi xóa
         var dialog_xoa = $.confirm({
-            title: `Xác nhận xóa công ty ${SinhVien.masv}`,
-            content: `Xác nhận xóa nhé????`,
+            title: `Xác nhận xóa sinh viên: ${SinhVien.masv}`,
+            content: `Xác nhận xóa?`,
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'red',
             buttons: {
+               
                 YES: {
+                    btnClass: 'btn-red',
                     action: function () {
                         var data_gui_di = {
                             action: 'delete_SinhVien',
@@ -51,28 +56,39 @@
 
         var content = `
         
-        Họ Tên: <input type="text" id="edit-hoten" value="${SinhVien.hoten}"><br> 
-        Giới Tính: <input type="text" id="edit-gioitinh" value="${SinhVien.gioitinh}"><br>
-        Địa Chỉ: <input type="text" id="edit-diachi" value="${SinhVien.diachi}"><br> 
-        Ngày Sinh: <input type="text" id="edit-ngaysinh" value="${SinhVien.ngaysinh}"><br> 
-        Khoa: <input type="text" id="edit-khoa" value="${SinhVien.khoa}"><br> 
-        Lớp: <input type="text" id="edit-lop" value="${SinhVien.lop}"><br> 
-        Email: <input type="text" id="edit-email" value="${SinhVien.email}"><br> 
-        Password: <input type="text" id="edit-password" value="${SinhVien.password}"><br> 
+       Họ Tên:    <input class="w3-input" type="text" id="edit-hoten" value="${SinhVien.hoten}"><br> 
+       Giới Tính: <input  class="w3-radio" type="radio" id="edit-nam" name="gioitinh" value="Nam" ${SinhVien.gioitinh === 'Nam' ? 'checked' : ''}>
+          <label for="edit-nam">Nam</label>
+        <input class="w3-radio" type="radio" id="edit-nu" name="gioitinh" value="Nữ" ${SinhVien.gioitinh === 'Nữ' ? 'checked' : ''}>
+         <label for="edit-nu">Nữ</label><br>
+         <br>
+       Địa Chỉ:   <input class="w3-input" type="text" id="edit-diachi" value="${SinhVien.diachi}"><br> 
+       Ngày Sinh: <input class="w3-input" type="text" id="edit-ngaysinh" value="${SinhVien.ngaysinh}"><br> 
+       Khoa:      <input class="w3-input" type="text" id="edit-khoa" value="${SinhVien.khoa}"><br> 
+       Lớp:       <input class="w3-input" type="text" id="edit-lop" value="${SinhVien.lop}"><br> 
+       Email:     <input class="w3-input" type="text" id="edit-email" value="${SinhVien.email}"><br> 
+       Password:  <input class="w3-input" type="text" id="edit-password" value="${SinhVien.password}"><br> 
     `;
 
         var dialog_edit = $.confirm({
             title: 'Edit Sinh viên',
             content: content,
             columnClass: 'large',
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'green',
+            
             buttons: {
+                
                 save: {
+                    btnClass: 'btn-green',
                     action: function () {
                         var data_gui_di = {
                             action: 'edit_SinhVien',
 
                             hoten: $('#edit-hoten').val(),
-                            gioitinh: $('#edit-gioitinh').val(),
+                            
+                            gioitinh: $('[name="gioitinh"]:checked').val(),
                             diachi: $('#edit-diachi').val(),
                             ngaysinh: $('#edit-ngaysinh').val(),
                             khoa: $('#edit-khoa').val(),
@@ -95,55 +111,14 @@
                         });
                     }
                 },
-                cancel: {
-                    text: 'Hủy bỏ'
+                close: function () {
                 }
             }
         });
     }
 
 
-    //function search_SinhVien() {
-    //    var SinhVien;
-    //    for (var item of json.data) {
-    //        if (item.masv == id) {
-    //            SinhVien = item;
-    //            break;
-    //        }
-    //    }
-    //    // Assume you have a target element with the id "target-element"
-    //    var targetElement = $('#thanhtimkiem');
-
-    //    // Your HTML content with the pre-created input
-    //    var content = `
-    //Mã sinh viên: <input type="text" id="edit-hoten" value="${SinhVien.masv}"><br> `;
-
-    //    // Set the HTML content of the target element
-    //    targetElement.html(content);
-
-    //    // Now the target element contains the pre-created inpu
-    //    $.confirm({
-    //        action: function () {
-    //            var data_gui_di = {
-    //                action: 'search_SinhVien',
-    //                masv: id, //gửi đi id của sinh viên cần xóa: api, sp sẽ làm phần còn lại
-    //            };
-    //            console.log(data_gui_di);
-    //            $.post(api, data_gui_di, function (data) {
-    //                //đợi data là json string text gửi về
-    //                var json = JSON.parse(data); //json string text => obj
-    //                if (json.ok) { //dùng obj
-
-    //                    cap_nhat_SinhVien();  //vẽ lại kq mới
-    //                } else {
-    //                    alert(json.msg) // lỗi gì ở trên lo, ta cứ show ra thôi
-    //                }
-    //            });
-    //        }
-
-    //    });
-    // }
-
+    
 
     
     function cap_nhat_SinhVien() {
@@ -220,48 +195,6 @@
             })
     }
 
-    function add_SinhVien() {
-        //show 1 dialog, các truongf để trông để user nhập
-        //sau đó thu nhận các value đã input, có thể check đk trước khi gửi
-        //gửi api, thu về json, ok=1 =>cap_nhat_SinhVien
-        var content = `html form cho input các trường của 1 cty mới:..<hr>
-    Name: <input id="nhap-name"><br>
-    Address: <input id="nhap-address">
-    `
-        var dialog_add = $.confirm({
-            title: 'THêm mới 1 Sinh Viên',
-            content: content,
-            buttons: {
-                save: {
-                    text: 'Thêm Sinh Vieen vào db',
-                    action: function () {
-                        //sau đó thu nhận các value đã input, có thể check đk trước khi gửi
-                        //gửi api, thu về json, ok=1 =>cap_nhat_SinhVien
-                        var data_gui_di = {
-                            action: 'add_SinhVien',
-                            //name: $('#nhap-name').val(),
-                            //address: $('#nhap-address').val(),
-                            //lat: 0,
-                            //lng: 1,
-                            //phone: '555',
-                            //zalo: 'ttttttttzzz'
-                        }
-                        //console.log(data_gui_di);
-                        $.post(api, data_gui_di, function (data) {
-                            var json = JSON.parse(data);
-                            if (json.ok) {
-                                dialog_add.close();
-                                cap_nhat_SinhVien();
-                            } else {
-                                alert(json.msg)
-                            }
-                        });
-                    }//het save
-                },
-                xxx: {}
-            }//button
-        });
-    }
     function list_SinhVien() {
         
         cap_nhat_SinhVien();
@@ -269,12 +202,15 @@
     $('.tab-item').click(function () {
         list_SinhVien();
     });
+  /*  tìm kiếm sinh viên*/
     $('.fa-search').click(function () {
        
 
         $.post(api, {
             action: 'search_SinhVien',
             masv: $('#thanhtimkiem').val(),
+            boxWidth: '50%',
+            useBootstrap: false,
         }, function (data) {
             // Xử lý dữ liệu sau khi nhận được từ API
             console.log(data); // In dữ liệu lấy được từ API vào console
@@ -328,9 +264,103 @@
             }
             //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
             $('.ky-tuc-xa').html(thongtintimkiem); //gán html vào thân dialog
+            $('.nut-sua-xoa').click(function () {
+                //phân biệt các nút bằng data kèm theo
+                var action = $(this).data('action')  //lấy action kèm theo
+                var id = $(this).data('cid')  //lấy cid kèm theo
+                if (action == 'delete_SinhVien') { //dùng action
+                    //can xac nhan
+                    delete_SinhVien(id, json); //dùng id vào đây để hàm này xử, cho khỏi rối code
+                } else if (action == 'edit_SinhVien') {
+                    //ko can xac nhan
+                    edit_SinhVien(id, json);
+                }
+            });
+        
 
         });
     });
+    $('#themsv').click(function () {
+        // Đảm bảo bạn đã có dữ liệu SinhVien để hiển thị trong dialog
+        var SinhVien = {};
+
+        var content = `
+        Mã sinh viên:  <input class="w3-input" type="text" id="nhap-masv" "><br> 
+        Họ Tên:    <input class="w3-input" type="text" id="nhap-hoten" "><br> 
+        Giới Tính: 
+        <input class="w3-radio" type="radio" id="nhap-nam" name="gioitinh" value="Nam">
+        <label for="nhap-nam">Nam</label>
+        <input class="w3-radio" type="radio" id="nhap-nu" name="gioitinh" value="Nữ">
+        <label for="nhap-nu">Nữ</label><br>
+        <br>
+
+        Địa Chỉ:   <input class="w3-input" type="text" id="nhap-diachi" ><br> 
+        Ngày Sinh: <input class="w3-input" type="text" id="nhap-ngaysinh" ><br> 
+        Khoa:      <input class="w3-input" type="text" id="nhap-khoa" ><br> 
+        Lớp:       <input class="w3-input" type="text" id="nhap-lop" ><br> 
+        Email:     <input class="w3-input" type="text" id="nhap-email"><br> 
+        Password:  <input class="w3-input" type="text" id="nhap-password">
+    `;
+
+        var dialog_edit = $.confirm({
+            title: 'Thêm Sinh viên',
+            content: content,
+            columnClass: 'large',
+            boxWidth: '50%',
+            useBootstrap: false,
+
+            type: 'green',
+            buttons: {
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+                        // Đảm bảo giá trị của gioitinh là hoặc 'Nam' hoặc 'Nữ'
+                        var gioitinh = $('[name="gioitinh"]:checked').val();
+                        if (!gioitinh) {
+                            alert('Vui lòng chọn giới tính.');
+                            return false; // Ngăn chặn đóng dialog nếu giới tính không hợp lệ
+                        }
+                        else {
+
+                            alert('Thêm Thành Công');
+                        }
+
+                        var data_gui_di = {
+                            action: 'add_SinhVien',
+                            masv: $('#nhap-masv').val(),
+                            hoten: $('#nhap-hoten').val(),
+                            gioitinh: gioitinh,
+                            diachi: $('#nhap-diachi').val(),
+
+                            ngaysinh: $('#nhap-ngaysinh').val(),
+                            khoa: $('#nhap-khoa').val(),
+                            lop: $('#nhap-lop').val(),
+                            email: $('#nhap-email').val(),
+                            password: $('#nhap-password').val(),
+                        };
+                        
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_edit.close();
+                                cap_nhat_SinhVien();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    });
+
+
+        
     
 });
 
