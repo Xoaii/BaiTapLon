@@ -387,8 +387,8 @@
                     var stt = 0;
                     for (var Sach of json.data) {
                         //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
-                        var sua_xoa = `<button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${Sach.masv}" data-action="edit_Sach">Sửa</button>`;
-                        sua_xoa += ` <button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${Sach.masv}" data-action="delete_Sach">Xóa</button>`;
+                        var sua_xoa = `<button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${Sach.masach}" data-action="edit_Sach">Sửa</button>`;
+                        sua_xoa += ` <button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${Sach.masach}" data-action="delete_Sach">Xóa</button>`;
                         noidung_ds_Sach_html += `
                      <tr>
                      <td>${++stt}</td>
@@ -503,15 +503,7 @@
                 break;
             }
         }
-        for (var item of json.data) {
-            console.log(item.masach);
-        }
-        // Kiểm tra xem Sach có giá trị không
-        if (!Sach) {
-            console.error("Không tìm thấy thông tin sách.");
-            return;
-        }
-
+       
         var content = `
         Tên Sách:   <input class="w3-input" type="text" id="edit-tensach" value="${Sach.tensach}"><br> 
         Mã NXB: <input class="w3-input" type="text" id="edit-manxb" value="${Sach.manxb}"><br> 
