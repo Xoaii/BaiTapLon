@@ -2,6 +2,7 @@
     //code js here mẫu của jquery
     giao_dien_animation()
     const api = '/api.aspx';
+    list_Sach();
     function delete_SinhVien(id, json) {
         var SinhVien;
         for (var item of json.data) {
@@ -18,7 +19,7 @@
             useBootstrap: false,
             type: 'red',
             buttons: {
-               
+
                 YES: {
                     btnClass: 'btn-red',
                     action: function () {
@@ -73,13 +74,13 @@
         var dialog_edit = $.confirm({
             title: 'Edit Sinh viên',
             content: content,
-            columnClass: 'large',
+            /* columnClass: 'large',*/
             boxWidth: '50%',
             useBootstrap: false,
             type: 'green',
-            
+
             buttons: {
-                
+
                 save: {
                     btnClass: 'btn-green',
                     action: function () {
@@ -87,7 +88,7 @@
                             action: 'edit_SinhVien',
 
                             hoten: $('#edit-hoten').val(),
-                            
+
                             gioitinh: $('[name="gioitinh"]:checked').val(),
                             diachi: $('#edit-diachi').val(),
                             ngaysinh: $('#edit-ngaysinh').val(),
@@ -118,9 +119,6 @@
     }
 
 
-    
-
-    
     function cap_nhat_SinhVien() {
         $.post(api,
             {
@@ -176,7 +174,7 @@
                     noidung_ds_SinhVien_html = "không có dữ liệu";
                 }
                 //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
-                $('.ky-tuc-xa').html(noidung_ds_SinhVien_html); //gán html vào thân dialog
+                $('.sinh-vien').html(noidung_ds_SinhVien_html); //gán html vào thân dialog
 
                 //trong html vừa đua vào có nhiều nút sửa và xóa, đều có class nut-sua-xoa
                 //selector này tóm đc mọi nút
@@ -196,19 +194,19 @@
     }
 
     function list_SinhVien() {
-        
+
         cap_nhat_SinhVien();
     }
     $('.tab-item').click(function () {
         list_SinhVien();
     });
-  /*  tìm kiếm sinh viên*/
+    /*  tìm kiếm sinh viên*/
     $('.fa-search').click(function () {
-       
+
 
         $.post(api, {
             action: 'search_SinhVien',
-            masv: $('#thanhtimkiem').val(),
+            masv: $('#timkiemsv').val(),
             boxWidth: '50%',
             useBootstrap: false,
         }, function (data) {
@@ -263,7 +261,7 @@
                 thongtintimkiem = "không có dữ liệu";
             }
             //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
-            $('.ky-tuc-xa').html(thongtintimkiem); //gán html vào thân dialog
+            $('.sinh-vien').html(thongtintimkiem); //gán html vào thân dialog
             $('.nut-sua-xoa').click(function () {
                 //phân biệt các nút bằng data kèm theo
                 var action = $(this).data('action')  //lấy action kèm theo
@@ -276,7 +274,7 @@
                     edit_SinhVien(id, json);
                 }
             });
-        
+
 
         });
     });
@@ -302,7 +300,7 @@
         Password:  <input class="w3-input" type="text" id="nhap-password">
     `;
 
-        var dialog_edit = $.confirm({
+        var dialog_add = $.confirm({
             title: 'Thêm Sinh viên',
             content: content,
             columnClass: 'large',
@@ -338,14 +336,14 @@
                             email: $('#nhap-email').val(),
                             password: $('#nhap-password').val(),
                         };
-                        
+
 
                         console.log(data_gui_di);
 
                         $.post(api, data_gui_di, function (data) {
                             var json = JSON.parse(data);
                             if (json.ok) {
-                                dialog_edit.close();
+                                dialog_add.close();
                                 cap_nhat_SinhVien();
                             } else {
                                 alert(json.msg);
@@ -358,7 +356,208 @@
             }
         });
     });
+    /*end sinh vien*/
 
+    /*  bảng sách*/
+    function cap_nhat_Sach() {
+        $.post(api,
+            {
+                action: 'list_Sach'
+            },
+            function (data) {
+                //alert(data)
+                var json = JSON.parse(data); //txt trong data -> obj json
+                var noidung_ds_Sach_html = "";
+                if (json.ok) {
+                    noidung_ds_Sach_html += `<table class="w3-table-all w3-hoverable">
+                   <thead>
+                   <tr>
+                     <th>STT</th>
+                     <th>Mã Sách</th>
+                     <th>Tên Sách</th>
+                     <th>Mã NXB</th>
+                     <th>Mã Tác Giả</th>
+                     <th>Trạng Thái</th>
+                     <th>Mã Đầu Sách</th>
+                  
+                     <th>Sửa/xóa</th>
+                   </tr>
+                   </thead><tbody>`;
+                    //duyet json -> noidung_ds_cty_html xịn
+                    var stt = 0;
+                    for (var Sach of json.data) {
+                        //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
+                        var sua_xoa = `<button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${Sach.masv}" data-action="edit_Sach">Sửa</button>`;
+                        sua_xoa += ` <button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${Sach.masv}" data-action="delete_Sach">Xóa</button>`;
+                        noidung_ds_Sach_html += `
+                     <tr>
+                     <td>${++stt}</td>
+                     <td>${Sach.masach}</td>
+                     <td>${Sach.tensach}</td>
+                     <td>${Sach.manxb}</td>
+                     <td>${Sach.matacgia}</td>
+                     <td>${Sach.trangthai}</td>
+                     <td>${Sach.madausach}</td>
+
+                     <td>${sua_xoa}</td>
+                   </tr>`;
+                    }
+
+                    noidung_ds_Sach_html += "</tbody></table>";
+                } else {
+
+                    noidung_ds_Sach_html = "không có dữ liệu";
+                }
+                //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
+                $('.sach').html(noidung_ds_Sach_html); //gán html vào thân dialog
+
+                //trong html vừa đua vào có nhiều nút sửa và xóa, đều có class nut-sua-xoa
+                //selector này tóm đc mọi nút
+                $('.nut-sua-xoa').click(function () {
+                    //phân biệt các nút bằng data kèm theo
+                    var action = $(this).data('action')  //lấy action kèm theo
+                    var id = $(this).data('cid')  //lấy cid kèm theo
+                    if (action == 'delete_Sach') { //dùng action
+                        //can xac nhan
+                        delete_Sach(id, json); //dùng id vào đây để hàm này xử, cho khỏi rối code
+                    } else if (action == 'edit_Sach') {
+                        //ko can xac nhan
+                        edit_Sach(id, json);
+                    }
+                });
+            })
+    }
+
+    $('#themsach').click(function () {
+       
+        var content = `
+        Mã Sách:  <input class="w3-input" type="text" id="nhap-masach" "><br> 
+        Tên Sách:    <input class="w3-input" type="text" id="nhap-tensach" "><br> 
+       Mã NXB:   <input class="w3-input" type="text" id="nhap-manxb" ><br> 
+        Mã Tác Giả: <input class="w3-input" type="text" id="nhap-matacgia" ><br>
+        Trạng Thái:<input class="w3-input" type="text" id="nhap-trangthai" ><br>
+        Mã Đầu Sách:       <input class="w3-input" type="text" id="nhap-madausach" ><br> 
+        
+    `;
+
+        var dialog_add = $.confirm({
+            title: 'Thêm Sách',
+            content: content,
+            columnClass: 'large',
+            boxWidth: '50%',
+            useBootstrap: false,
+
+            type: 'green',
+            buttons: {
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+                        
+
+                        var data_gui_di = {
+                            action: 'add_Sach',
+                            masach: $('#nhap-masach').val(),
+                            tensach: $('#nhap-tensach').val(),
+                           manxb: $('#nhap-manxb').val(),
+                            matacgia: $('#nhap-matacgia').val(),
+                            trangthai: $('#nhap-trangthai').val(),
+                            madausach: $('#nhap-madausach').val(),
+                           
+                        };
+
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_add.close();
+                                cap_nhat_Sach();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+
+    });
+    
+    function list_Sach() {
+        cap_nhat_Sach();
+    }
+   
+
+    function edit_Sach(id, json) {
+
+
+
+        var Sach;
+        for (var item of json.data) {
+            if (item.masach == id) {
+                Sach = item;
+               
+                break;
+            }
+        }
+        for (var item of json.data) {
+            console.log(item.masach);
+        }
+        // Kiểm tra xem Sach có giá trị không
+        if (!Sach) {
+            console.error("Không tìm thấy thông tin sách.");
+            return;
+        }
+
+        var content = `
+        Tên Sách:   <input class="w3-input" type="text" id="edit-tensach" value="${Sach.tensach}"><br> 
+        Mã NXB: <input class="w3-input" type="text" id="edit-manxb" value="${Sach.manxb}"><br> 
+        Mã Tác Giả:      <input class="w3-input" type="text" id="edit-matacgia" value="${Sach.matacgia}"><br> 
+        Trạng Thái:       <input class="w3-input" type="text" id="edit-trangthai" value="${Sach.trangthai}"><br> 
+        Mã Đầu Sách:     <input class="w3-input" type="text" id="edit-madausach" value="${Sach.madausach}"><br> `;
+
+        var dialog_edit = $.confirm({
+            title: 'Sửa Sách',
+            content: content,
+            columnClass: 'large',
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'green',
+            buttons: {
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'edit_Sach',
+                            tensach: $('#edit-tensach').val(),
+                            manxb: $('#edit-manxb').val(),
+                            matacgia: $('#edit-matacgia').val(),
+                            trangthai: $('#edit-trangthai').val(),
+                            madausach: $('#edit-madausach').val(),
+                            masach: id,
+                        };
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_edit.close();
+                                cap_nhat_Sach();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    }
 
         
     

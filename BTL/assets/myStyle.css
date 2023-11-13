@@ -59,20 +59,19 @@ a {
   
     
 }
-
-    .header.fixed {
+.header.fixed {
         position: sticky;
         top: 0;
         z-index: 100;
-    }
+}
 
-    .header .body {
+.header .body {
         display: flex;
         align-items: center;
-        border: 2px solid green;
+        border: 5px;
         
        
-    }
+   }
 
 .nav {
     margin-left: 29px;
@@ -223,7 +222,7 @@ a {
 }
     /*tim kiem */
     form.timkiem input[type=text] {
-        padding: 9px;
+        padding: 8.5px;
         font-size: 17px;
         border: 1px solid grey;
         float: left;

@@ -68,32 +68,35 @@
                     <i class="fa-solid fa-list-check"></i>
                     <p>TÍNH NĂNG</p>
                 </div>
-                <!-- Điều hướng bảng tin -->
+                <!-- Điều hướng sách -->
                 <ul class="list-dieu-huong list-pane active">
                     <li class="item-dieu-huong">
-                        <a href="#tin-tuc">
-                            <i ></i>Tin tức
+                        <a href="#!">
+                            <form class="timkiem">
+                                <input type="text" placeholder="Search.." id="timkiems">
+                                <button type="submit" class="fa fa-search">
+                                </button>
+                            </form>
                         </a>
                     </li>
-                    <li class="item-dieu-huong">
+                    <li class="item-dieu-huong" id="themsach">
+                        <a href="#!">
+                            <i ></i>+Thêm Sách
+                        </a>
+                    </li>
+                    <!--<li class="item-dieu-huong">
                         <a href="#thong-bao">
                             <i ></i>Thông
                             báo
                         </a>
-                    </li>
-                    <li class="item-dieu-huong">
-                        <a href="#thong-bao">
-                            <i ></i>Thông
-                            báo
-                        </a>
-                    </li>
+                    </li>-->
                 </ul>
                 <!-- Điều hướng sinh viên -->
                 <ul class="list-dieu-huong list-pane">
                     <li class="item-dieu-huong">
                         <a href="#!">
                                 <form class="timkiem">
-                                    <input type="text" placeholder="Search.."  id="thanhtimkiem">
+                                    <input type="text" placeholder="Search.."  id="timkiemsv">
                                     <button type="submit" class="fa fa-search" >
                                     </button>
                                 </form>                 
@@ -108,15 +111,15 @@
                 <!-- Điều hướng Thủ thư -->
                 <ul class="list-dieu-huong list-pane">
                     <li class="item-dieu-huong">
-                        <a href="#1">
+                        <a href="#!">
                             <i ></i>Sinh viên
-                            1
+                            
                         </a>
                     </li>
                     <li class="item-dieu-huong">
-                        <a href="#2">
+                        <a href="#!">
                             <i ></i>Sinh viên
-                            2
+                            
                         </a>
                     </li>
                 </ul>
@@ -139,79 +142,32 @@
 
             <!-- ============= NỘI DUNG =========== -->
             <div class="noi-dung">
-                <!--========= Bảng tin ========-->
-                <div class="bang-tin tab-pane active" style="height: 3000px">
+                <!--========= Sách ========-->
+                <div class="sach tab-pane active" style="height: 3000px">
                     <div class="container">
                         <!-- tự tạo thằng này vào trong  -->
                         <div class="ndbangtin">
                             <h1>Bảng tin</h1>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Soluta vitae, iusto, quasi autem enim at
-                            corporis vel, dicta amet modi quae fuga sequi
-                            excepturi reiciendis sed. Magnam architecto minus
-                            ipsam eveniet. Quo distinctio, quidem, voluptas,
-                            ipsum assumenda corrupti explicabo rem saepe
-                            voluptatum placeat commodi enim iste voluptates
-                            architecto nihil amet suscipit unde? Nulla sint
-                            atque ad autem labore ipsa. Obcaecati architecto
-                            aliquam accusamus voluptatum ab quia ex, omnis
-                            repellat nihil reiciendis accusantium culpa
-                            assumenda dignissimos sequi eligendi ipsa magni
-                            beatae necessitatibus nesciunt aliquid. Enim alias
-                            molestias at. Distinctio vero at esse, sapiente,
-                            asperiores eaque quidem maxime adipisci ipsam
-                            reiciendis a. Ex porro itaque voluptatem ipsum
-                            reprehenderit, nam fugiat facere eos aut corrupti
-                            modi illum, officia corporis sed cum? Labore
-                            corrupti sapiente ab numquam a, dicta ipsam laborum
-                            placeat nulla culpa odio dolore quod omnis! Quos a
-                            necessitatibus tenetur rem, culpa, dignissimos iste
-                            veritatis voluptatum minima ducimus natus quibusdam
-                            et quam facere quisquam. Maxime ad facilis quisquam
-                            beatae dolorum, excepturi itaque consequatur
-                            similique inventore tempore aperiam architecto eaque
-                            voluptatem sit iste eligendi consectetur unde
-                            quibusdam ullam adipisci nostrum accusantium
-                            placeat. Eligendi animi ullam iusto, nihil est, odit
-                            amet nam cupiditate, repudiandae mollitia vitae
-                            aspernatur. Reiciendis ratione obcaecati modi
-                            ducimus dolores quas pariatur ab aperiam, assumenda
-                            optio officia voluptatum explicabo ullam sapiente
-                            nostrum molestiae atque deleniti nam impedit quod.
-                            Inventore non, dolor nihil ducimus quo perspiciatis
-                            veritatis, pariatur sint architecto incidunt nam
-                            esse sed fugiat? Deleniti impedit velit autem cumque
-                            distinctio veniam laudantium officia molestiae vitae
-                            id vero tenetur perspiciatis dolores nisi
-                            voluptatibus est quibusdam rem et quam enim, libero,
-                            sit fugiat voluptas. Voluptas, enim alias aperiam
-                            ullam esse eum ea in officiis adipisci dolorem?
-                            Sequi vitae distinctio aperiam a assumenda minima
-                            deleniti recusandae totam eos ea saepe, quisquam
-                            fuga aspernatur excepturi et ratione delectus
-                            necessitatibus praesentium maiores veniam fugit,
-                            dolore voluptatem. Lorem ipsum dolor sit, amet
-                            consectetur adipisicing elit. Perferendis,
-                            quibusdam.
+                            
                         </div>
                     </div>
                 </div>
-                <!--========  ============-->
-                <div class="ky-tuc-xa tab-pane">
+                <!--======== Sinh VIên ============-->
+                <div class="sinh-vien tab-pane">
                     <div class="container">
                         <h1>Ký túc Xá</h1>
                     </div>
                 </div>
-                <!-- ========= Sinh viên ========= -->
-                <div class="sinh-vien tab-pane">
+                <!-- ========= Thủ Thư ========= -->
+                <div class="thu-thu tab-pane">
                     <div class="container">
-                        <h1>Sinh viên</h1>
+                        <h1>THủ THư</h1>
                     </div>
                 </div>
                 <!-- ==========Ý kiến đóng góp ============-->
-                <div class="Y-kien-dong-gop tab-pane">
+                <div class="nha-cung-cap tab-pane">
                     <div class="container">
-                        <h1>Ý kiến đóng góp</h1>
+                        <h1>nhà cung cấp</h1>
                     </div>
                 </div>
             </div>

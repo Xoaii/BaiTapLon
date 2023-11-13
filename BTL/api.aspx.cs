@@ -51,6 +51,42 @@ namespace BTL
             string json = (string)db.Scalar(cm);
             Response.Write(json);
         }
+        void xuly_Sach(string action)
+        {
+            //kb db .. tv sp action
+            SqlServer db = new SqlServer();
+            SqlCommand cm = db.GetCmd("SP_Sach", action);
+
+            switch (action)
+            {
+                case "add_Sach":
+                case "edit_Sach":
+                    cm.Parameters.Add("@tensach", SqlDbType.NVarChar, 100).Value = Request["tensach"];
+                    cm.Parameters.Add("@manxb", SqlDbType.NVarChar, 100).Value = Request["manxb"];
+                    cm.Parameters.Add("@matacgia", SqlDbType.NVarChar, 100).Value = Request["matacgia"];
+                    cm.Parameters.Add("@trangthai", SqlDbType.NVarChar, 100).Value = Request["trangthai"];
+                    cm.Parameters.Add("@madausach", SqlDbType.NVarChar, 100).Value = Request["madausach"];
+                 
+                
+
+                    break;
+
+            }
+
+            switch (action)
+            {
+                case "add_Sach":
+                case "edit_Sach":
+                case "delete_Sach":
+                case "search_Sach":
+                    cm.Parameters.Add("@masach", SqlDbType.NVarChar, 100).Value = Request["masach"];
+                    break;
+            }
+
+            //thuc thi
+            string json = (string)db.Scalar(cm);
+            Response.Write(json);
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
             string action = Request["action"];
@@ -63,6 +99,13 @@ namespace BTL
                 case "search_SinhVien":
 
                     xuly_SinhVien(action);
+                    break;
+                case "list_Sach":
+                case "add_Sach":
+                case "edit_Sach":
+                case "delete_Sach":
+                case "search_Sach":
+                    xuly_Sach(action);
                     break;
 
             }
