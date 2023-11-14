@@ -55,8 +55,14 @@
     <Content Include="assets\myStyle.css" />
     <Content Include="assets\reset.css" />
     <Content Include="img\avt.png" />
+    <Content Include="img\library1.png" />
+    <Content Include="img\Logo ĐH Kỹ Thuật Công Nghiệp - Đại Học Thái Nguyên - TNUT.png" />
     <Content Include="img\pngwing.com.png" />
     <Content Include="assets\jquery.js" />
+    <Content Include="img\tnut1.png" />
+    <Content Include="img\tnut2.png" />
+    <Content Include="img\tnut3.png" />
+    <Content Include="img\tnut4.png" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.esm.min.js.map" />

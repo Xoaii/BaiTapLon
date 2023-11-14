@@ -78,8 +78,42 @@ namespace BTL
                 case "add_Sach":
                 case "edit_Sach":
                 case "delete_Sach":
-                case "search_Sach":
                     cm.Parameters.Add("@masach", SqlDbType.NVarChar, 100).Value = Request["masach"];
+                    break;
+                case "search_Sach":
+                    cm.Parameters.Add("@tensach", SqlDbType.NVarChar, 100).Value = Request["tensach"];
+                    break;
+            }
+
+            //thuc thi
+            string json = (string)db.Scalar(cm);
+            Response.Write(json);
+        }
+        void xuly_DauSach(string action)
+        {
+            //kb db .. tv sp action
+            SqlServer db = new SqlServer();
+            SqlCommand cm = db.GetCmd("SP_DauSach", action);
+
+            switch (action)
+            {
+                case "add_DauSach":
+                case "edit_DauSach":
+                   
+                    cm.Parameters.Add("@soluong", SqlDbType.Int, 100).Value = Request["soluong"];
+
+
+
+                    break;
+
+            }
+
+            switch (action)
+            {
+                case "add_DauSach":
+                case "edit_DauSach":
+                case "delete_DauSach":
+                    cm.Parameters.Add("@madausach", SqlDbType.NVarChar, 100).Value = Request["madausach"];
                     break;
             }
 
@@ -107,6 +141,14 @@ namespace BTL
                 case "search_Sach":
                     xuly_Sach(action);
                     break;
+
+                case "list_DauSach":
+                case "add_DauSach":
+                case "edit_DauSach":
+                case "delete_DauSach":
+                      xuly_DauSach(action);
+                    break;
+                
 
             }
         }

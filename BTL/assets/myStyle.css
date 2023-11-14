@@ -52,12 +52,17 @@ a {
         display: block;
     }
 
+list-item,.content-tab{
+    display:none;
+}
+.list-item.active,
+.content-tab.active {
+    display: block;
+}
 /* Header */
 .header {
     height: 70px;
     background-color: var(--mau-header);
-  
-    
 }
 .header.fixed {
         position: sticky;
@@ -142,7 +147,7 @@ a {
 
     .main .dieu-huong {
         flex-grow: 1;
-        width: 200px;
+        width: 220px !important;
         background-color: var(--nen-xam);
         border-right: solid 2px #6c6a67;
         border-bottom: solid 2px #6e6b64;
@@ -165,7 +170,7 @@ a {
     display: flex;
     color: #000;
     height: 40px;
-    padding: 11px 6px;
+    padding: 11px 36px;
     font-size: 1.8rem;
     background-color: #2e80ce;
 }
@@ -185,7 +190,8 @@ a {
     color: var(--chu-color);
     border: none;
     border-bottom: 1.5px solid #ccc;
-    padding: 10px 0 10px 15px;
+    padding: 10px 0 12px 0px;
+    text-align: center;
     width: 100%;
     font-size: 2.4rem;
     font-weight: 400;
@@ -208,11 +214,12 @@ a {
     border: 2px ;
 }
 
+
 /* ============= CẤM ĐỘNG =========== */
 
 
 .ndbangtin {
-    background-color: green;
+    background-color: white;
 }
 .w3-button {
     background-color: #2e80ce;
@@ -221,40 +228,117 @@ a {
     background-color:aquamarine !important;
 }
     /*tim kiem */
-    form.timkiem input[type=text] {
-        padding: 8.5px;
-        font-size: 17px;
-        border: 1px solid grey;
-        float: left;
-        width: 80%;
-        background: #f1f1f1;
-    }
-
-form.timkiem button {
-    float: left;
-    width: 20%;
-    padding: 10px;
-    background: #2196F3;
-    color: white;
-    font-size: 17px;
-    border: 1px solid grey;
-    border-left: none;
-    cursor: pointer;
+input#timkiemsv {
+    width: 153px;
+    height: 36px;
 }
 
-    form.timkiem button:hover {
-        background: #0b7dda;
-    }
-
-form.timkiem::after {
+.timkiem::after {
     content: "";
     clear: both;
     display: table;
 }
 
-form.timkiem {
-    margin: auto;
+.timkiem {
+    display: inline-flex;
     max-width: 300px;
 }
+.thanhtimkiem {
+    padding: 5px;
+}
+input#timkiemsach {
+    height: 31px;
+}
 /* --end  time kiem--*/
+button#themsach {
+    background-color: lawngreen;
+}
 
+/*trang chủ*/
+
+.w3-content.w3-section {
+    max-width: 100vw;
+    margin-top: 7px !important;
+}
+.blinking-text {
+    font-size: 24px;
+    font-weight: bold;
+    animation: blink 1s infinite;
+    text-align: center;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+/*logo trường*/
+img {
+    width: 212px;
+}
+span.small.fw-400 {
+   
+    font-weight: 100;
+}
+.sname {
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-transform: uppercase !important;
+}
+/*noi dung trang chủ*/
+h1 {
+    color: #2e80ce;
+    text-align: center;
+}
+
+p {
+    line-height: 1.6;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #2e80ce;
+    border-bottom: 2px solid #2e80ce;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #2e80ce;
+    color: #fff;
+    border-radius: 5px;
+}
+.library-container {
+    max-width: 100vw;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+/*chỉnh lại slide img*/
+img.mySlides {
+    margin-top: 3px !important;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     //code js here mẫu của jquery
     giao_dien_animation()
+    
     const api = '/api.aspx';
     list_Sach();
     function delete_SinhVien(id, json) {
@@ -149,8 +150,8 @@
                     var stt = 0;
                     for (var SinhVien of json.data) {
                         //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
-                        var sua_xoa = `<button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${SinhVien.masv}" data-action="edit_SinhVien">Sửa</button>`;
-                        sua_xoa += ` <button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${SinhVien.masv}" data-action="delete_SinhVien">Xóa</button>`;
+                        var sua_xoa = `<button class="w3-button w3-round nut-sua-xoa" data-cid="${SinhVien.masv}" data-action="edit_SinhVien">Sửa</button>`;
+                        sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" data-cid="${SinhVien.masv}" data-action="delete_SinhVien">Xóa</button>`;
                         noidung_ds_SinhVien_html += `
                      <tr>
                      <td>${++stt}</td>
@@ -173,7 +174,7 @@
 
                     noidung_ds_SinhVien_html = "không có dữ liệu";
                 }
-                //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
+                //đưa html vừa nối nối vào chỗ định trước: 
                 $('.sinh-vien').html(noidung_ds_SinhVien_html); //gán html vào thân dialog
 
                 //trong html vừa đua vào có nhiều nút sửa và xóa, đều có class nut-sua-xoa
@@ -201,7 +202,7 @@
         list_SinhVien();
     });
     /*  tìm kiếm sinh viên*/
-    $('.fa-search').click(function () {
+    $('#btn-timsv').click(function () {
 
 
         $.post(api, {
@@ -236,8 +237,8 @@
                 var stt = 0;
                 for (var SinhVien of json.data) {
                     //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
-                    var sua_xoa = `<button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${SinhVien.masv}" data-action="edit_SinhVien">Sửa</button>`;
-                    sua_xoa += ` <button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${SinhVien.masv}" data-action="delete_SinhVien">Xóa</button>`;
+                    var sua_xoa = `<button class="w3-button w3-round nut-sua-xoa" data-cid="${SinhVien.masv}" data-action="edit_SinhVien">Sửa</button>`;
+                    sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" data-cid="${SinhVien.masv}" data-action="delete_SinhVien">Xóa</button>`;
                     thongtintimkiem += `
                      <tr>
                      <td>${++stt}</td>
@@ -387,8 +388,8 @@
                     var stt = 0;
                     for (var Sach of json.data) {
                         //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
-                        var sua_xoa = `<button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${Sach.masach}" data-action="edit_Sach">Sửa</button>`;
-                        sua_xoa += ` <button class="w3-button w3-round-xlarge nut-sua-xoa" data-cid="${Sach.masach}" data-action="delete_Sach">Xóa</button>`;
+                        var sua_xoa = `<button class="w3-button w3-round nut-sua-xoa" data-cid="${Sach.masach}" data-action="edit_Sach">Sửa</button>`;
+                        sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" data-cid="${Sach.masach}" data-action="delete_Sach">Xóa</button>`;
                         noidung_ds_Sach_html += `
                      <tr>
                      <td>${++stt}</td>
@@ -409,7 +410,7 @@
                     noidung_ds_Sach_html = "không có dữ liệu";
                 }
                 //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
-                $('.sach').html(noidung_ds_Sach_html); //gán html vào thân dialog
+                $('.ndsach').html(noidung_ds_Sach_html); //gán html vào thân dialog
 
                 //trong html vừa đua vào có nhiều nút sửa và xóa, đều có class nut-sua-xoa
                 //selector này tóm đc mọi nút
@@ -552,33 +553,293 @@
     }
 
         
-    
-});
+    function delete_Sach(id, json) {
+        var Sach;
+        for (var item of json.data) {
+            if (item.masach == id) {
+                Sach = item;
+                break;
+            }
+        }
+        //xác nhận trước khi xóa
+        var dialog_xoa = $.confirm({
+            title: `Xác nhận xóa sách: ${Sach.masach}`,
+            content: `Xác nhận xóa?`,
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'red',
+            buttons: {
+
+                YES: {
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'delete_Sach',
+                            masach: id, //gửi đi id của sách xóa: api, sp sẽ làm phần còn lại
+                        }
+                        console.log(data_gui_di);
+                        $.post(api, data_gui_di, function (data) {
+                            //đợi data là json string text gửi về
+                            var json = JSON.parse(data); //json string text => obj
+                            if (json.ok) { //dùng obj
+                                dialog_xoa.close();
+                                alert('Xóa thành công!')
+                                cap_nhat_Sach();  //vẽ lại kq mới
+                            } else {
+                                alert(json.msg) // lỗi gì ở trên lo, ta cứ show ra thôi
+                            }
+                        })
+                    }
+                },
+                NO: {
+
+                }
+            }
+        })
+    }
+    /* đầu sách*/
+    function cap_nhat_DauSach() {
+        $.post(api,
+            {
+                action: 'list_DauSach'
+            },
+            function (data) {
+                //alert(data)
+                var json = JSON.parse(data); //txt trong data -> obj json
+                var noidung_ds_DauSach_html = "";
+                if (json.ok) {
+                    noidung_ds_DauSach_html += `<table class="w3-table-all w3-hoverable">
+                   <thead>
+                   <tr>
+                     <th>STT</th>
+                     <th>Mã Đầu Sách</th>
+                     <th>Số Lượng</th>
+
+                     <th>Sửa/xóa</th>
+                   </tr>
+                   </thead><tbody>`;
+                    //duyet json -> noidung_ds_cty_html xịn
+                    var stt = 0;
+                    for (var DauSach of json.data) {
+                        //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
+                        var sua_xoa = `<button class="w3-button w3-round nut-sua-xoa" data-cid="${DauSach.madausach}" data-action="edit_DauSach">Sửa</button>`;
+                        sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" data-cid="${DauSach.soluong}" data-action="delete_DauSach">Xóa</button>`;
+                        noidung_ds_DauSach_html += `
+                     <tr>
+                     <td>${++stt}</td>
+                  
+                     <td>${DauSach.madausach}</td>
+                     <td>${DauSach.soluong}</td>
+
+                     <td>${sua_xoa}</td>
+                   </tr>`;
+                    }
+
+                    noidung_ds_DauSach_html += "</tbody></table>";
+                } else {
+
+                    noidung_ds_DauSach_html = "không có dữ liệu";
+                }
+                //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
+                $('.nddausach').html(noidung_ds_DauSach_html); //gán html vào thân dialog
+
+                //trong html vừa đua vào có nhiều nút sửa và xóa, đều có class nut-sua-xoa
+                //selector này tóm đc mọi nút
+                $('.nut-sua-xoa').click(function () {
+                    //phân biệt các nút bằng data kèm theo
+                    var action = $(this).data('action')  //lấy action kèm theo
+                    var id = $(this).data('cid')  //lấy cid kèm theo
+                    if (action == 'delete_DauSach') { //dùng action
+                        //can xac nhan
+                        delete_DauSach(id, json); //dùng id vào đây để hàm này xử, cho khỏi rối code
+                    } else if (action == 'edit_DauSach') {
+                        //ko can xac nhan
+                        edit_DauSach(id, json);
+                    }
+                });
+            })
+    }
+    function list_DauSach() {
+        cap_nhat_DauSach();
+    }
+    //bấm head sách
+    $('.sach').click(function () {
+        //phân biệt các nút bằng data kèm theo
+        list_Sach();
+    });
+    //bấm điều hướng sách
+    $('#sach').click(function () {
+        //phân biệt các nút bằng data kèm theo
+        list_Sach();
+    });
+    /*tìm sách*/
+    $('#btn-timsach').click(function () {
+        $.post(api, {
+            action: 'search_Sach',
+            tensach: $('#timkiemsach').val(),
+            boxWidth: '50%',
+            useBootstrap: false,
+        }, function (data) {
+            console.log("Dữ liệu trả về từ server:", data); // Log dữ liệu trả về từ server
+            var json = JSON.parse(data);
+            var timsach = "";
+            // ... (phần xử lý khác)
+
+            if (json.ok) {
+                timsach += `<table class="w3-table-all w3-hoverable">
+               <thead>
+               <tr>
+                 <th>STT</th>
+                 <th>Mã Sách</th>
+                 <th>Tên Sách</th>
+                 <th>Mã NXB</th>
+                 <th>Mã Tác Giả</th>
+                 <th>Trạng Thái</th>
+                 <th>Mã Đầu Sách</th>
+                 <th>Sửa/xóa</th>
+               </tr>
+               </thead><tbody>`;
+                var stt = 0;
+                for (var Sach of json.data) {
+                    var sua_xoa = `<button class="w3-button w3-round nut-sua-xoa" data-cid="${Sach.masach}" data-action="edit_Sach">Sửa</button>`;
+                    sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" data-cid="${Sach.masach}" data-action="delete_Sach">Xóa</button>`;
+                    timsach += `
+                 <tr>
+                 <td>${++stt}</td>
+                 <td>${Sach.masach}</td>
+                 <td>${Sach.tensach}</td>
+                 <td>${Sach.manxb}</td>
+                 <td>${Sach.matacgia}</td>
+                 <td>${Sach.trangthai}</td>
+                 <td>${Sach.madausach}</td>
+                 <td>${sua_xoa}</td>
+               </tr>`;
+                }
+                timsach += "</tbody></table>";
+            } else {
+                console.log("Không có dữ liệu hoặc có lỗi:", json.msg); // Log thông báo lỗi từ server
+                timsach = "Không có dữ liệu hoặc có lỗi";
+            }
+
+            $('.ndsach').html(timsach);
+
+            $('.nut-sua-xoa').click(function () {
+                var action = $(this).data('action');
+                var id = $(this).data('cid');
+                if (action == 'delete_Sach') {
+                    delete_Sach(id, json);
+                } else if (action == 'edit_Sach') {
+                    edit_Sach(id, json);
+                }
+            });
+        });
+    });
+
+
+    $('#dausach').click(function () {
+        //phân biệt các nút bằng data kèm theo
+      
+        list_DauSach();
+    });
+})
 
 
 
 // gà
 function giao_dien_animation() {
+    chuyenTabCon();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
     const tabs = $$(".tab-item");
     const panes = $$(".tab-pane");
     const panes_list = $$(".list-pane");
+    /*const items = $$(".list-item");*/
+    
 
     tabs.forEach((tab, index) => {
         const pane = panes[index];
         const list_pane = panes_list[index];
+        /*const list_item = items[index];*/
 
         tab.onclick = function () {
             $(".tab-item.active").classList.remove("active");
             $(".tab-pane.active").classList.remove("active");
             $(".list-pane.active").classList.remove("active");
+           /* $(".list-item.active").classList.remove("active");*/
 
             this.classList.add("active");
             pane.classList.add("active");
             list_pane.classList.add("active");
+           /* list_item.classList.add("active");*/
+
         };
     });
 }
+function chuyenTabCon() {
+    const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
+
+    const items = $$(".list-item");
+    const panes = $$(".content-tab");
+
+
+    //items.forEach((item, index) => {
+       
+    //    const pane = panes[index];
+
+    //    item.onclick = function () {
+    //        $(".list-item.active").classList.remove("active");
+    //        $(".content-tab.active").classList.remove("active");
+
+    //        this.classList.add("active");
+    //        pane.classList.add("active");
+    //    };
+    //});
+    items.forEach((item, index) => {
+        const list_item = items[index];
+        const pane = panes[index];
+        
+
+        if (list_item && pane) {
+            item.onclick = function () {
+                const activeListItem = $(".list-item.active");
+                const activePane = $(".content-tab.active");
+
+                if (activeListItem) {
+                    activeListItem.classList.remove("active");
+                }
+
+                if (activePane) {
+                    activePane.classList.remove("active");
+                }
+
+                list_item.classList.add("active");
+                pane.classList.add("active");
+            };
+        }
+    });
+
+}
+// main.js
+//CHẠY SLIDE
+$(document).ready(function () {
+    var myIndex = 0;
+    carousel();
+
+    function carousel() {
+        var x = $(".mySlides");
+        x.hide();
+
+        myIndex++;
+        if (myIndex > x.length) {
+            myIndex = 1;
+        }
+        x.eq(myIndex - 1).show();
+        setTimeout(carousel, 2000); // Change image every 2 seconds
+    }
+});
+
+
+// Gọi hàm khi trang web được tải
 
