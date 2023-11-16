@@ -110,7 +110,7 @@ namespace BTL
 
             switch (action)
             {
-               
+                case "add_DauSach":
                 case "edit_DauSach":
                 case "delete_DauSach":
                     cm.Parameters.Add("@madausach", SqlDbType.NVarChar, 100).Value = Request["madausach"];
@@ -262,7 +262,6 @@ namespace BTL
             {
                 case "add_MuonSach":
                     cm.Parameters.Add("@ngaymuon", SqlDbType.DateTime, 100).Value = Request["ngaymuon"];
-               
                     cm.Parameters.Add("@mathuthu", SqlDbType.NVarChar, 100).Value = Request["mathuthu"];
 
                     break;
@@ -283,6 +282,71 @@ namespace BTL
                     cm.Parameters.Add("@masach", SqlDbType.NVarChar, 100).Value = Request["masach"];
                     cm.Parameters.Add("@masv", SqlDbType.NVarChar, 100).Value = Request["masv"];
 
+                    break;
+            }
+
+            //thuc thi
+            string json = (string)db.Scalar(cm);
+            Response.Write(json);
+        }
+        void xuly_PhieuNhap(string action)
+        {
+            //kb db .. tv sp action
+            SqlServer db = new SqlServer();
+            SqlCommand cm = db.GetCmd("SP_PhieuNhap", action);
+
+            switch (action)
+            {
+                case "add_PhieuNhap":
+   
+                case "edit_PhieuNhap":
+                    cm.Parameters.Add("@mancc", SqlDbType.NVarChar, 100).Value = Request["mancc"];
+                    cm.Parameters.Add("@ngaynhap", SqlDbType.DateTime, 100).Value = Request["ngaynhap"];
+                   
+
+                    break;
+
+            }
+
+            switch (action)
+            {
+                case "add_PhieuNhap":
+                case "edit_PhieuNhap":
+                case "delete_PhieuNhap":
+                    cm.Parameters.Add("@maphieunhap", SqlDbType.NVarChar, 100).Value = Request["maphieunhap"];
+                    break;
+            }
+
+            //thuc thi
+            string json = (string)db.Scalar(cm);
+            Response.Write(json);
+        }
+        void xuly_ChiTietPhieuNhap(string action)
+        {
+            //kb db .. tv sp action
+            SqlServer db = new SqlServer();
+            SqlCommand cm = db.GetCmd("SP_ChiTietNhap", action);
+
+            switch (action)
+            {
+                case "add_ChiTietNhap":
+                case "edit_ChiTietNhap":
+                    cm.Parameters.Add("@madausach", SqlDbType.NVarChar, 100).Value = Request["madausach"];
+                    cm.Parameters.Add("@tensach", SqlDbType.NVarChar, 100).Value = Request["tensach"];
+                    cm.Parameters.Add("@soluong", SqlDbType.Int, 100).Value = Request["soluong"];
+                    cm.Parameters.Add("@dongia", SqlDbType.Money,255).Value = Request["dongia"];
+
+
+                    break;
+
+            }
+
+            switch (action)
+            {
+                case "add_ChiTietNhap":
+                case "edit_ChiTietNhap":
+                case "delete_ChiTietNhap":
+                    cm.Parameters.Add("@maphieunhap", SqlDbType.NVarChar, 100).Value = Request["maphieunhap"];
                     break;
             }
 
@@ -346,6 +410,18 @@ namespace BTL
                 case "edit_MuonSach":
                 case "delete_MuonSach":
                     xuly_MuonSach(action);
+                    break;
+                case "list_PhieuNhap":
+                case "add_PhieuNhap":
+                case "edit_PhieuNhap":
+                case "delete_PhieuNhap":
+                   xuly_PhieuNhap(action);
+                    break;
+                case "list_ChiTietNhap":
+                case "add_ChiTietNhap":
+                case "edit_ChiTietNhap":
+                case "delete_ChiTietNhap":
+                    xuly_ChiTietPhieuNhap(action);
                     break;
             }
         }

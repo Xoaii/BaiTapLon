@@ -318,10 +318,7 @@
                             alert('Vui lòng chọn giới tính.');
                             return false; // Ngăn chặn đóng dialog nếu giới tính không hợp lệ
                         }
-                        else {
-
-                            alert('Thêm Thành Công');
-                        }
+                       
 
                         var data_gui_di = {
                             action: 'add_SinhVien',
@@ -1974,10 +1971,10 @@
                    <thead>
                    <tr>
                      <th>STT</th>
-                     <th>Mã Tác Giả</th>
+                     <th>Mã Sách</th>
                      <th>Mã Sinh Viên</th>
-                     <th>ngày Mượn</th>
-                     <th>ngày Trả</th>
+                     <th>Ngày Mượn</th>
+                     <th>Ngày Trả</th>
                      <th>Mã Thủ Thư</th>
                      <th>Sửa/xóa</th>
                    </tr>
@@ -2150,7 +2147,7 @@
         }
         //xác nhận trước khi xóa
         var dialog_xoa = $.confirm({
-            title: `Xác nhận Mượn Sách: ${MuonSach.masach}`,
+            title: `Xóa Sách: ${MuonSach.masach}`,
             content: `Xác nhận xóa?`,
             boxWidth: '50%',
             useBootstrap: false,
@@ -2213,7 +2210,522 @@
         list_MuonSach();
 
     });
-   /*---- END Mượn Sách----*/
+    /*---- END Mượn Sách----*/
+    /*  ----Phiếu Nhập----*/
+    function cap_nhat_PhieuNhap() {
+        $.post(api,
+            {
+                action: 'list_PhieuNhap'
+            },
+            function (data) {
+                alert(data)
+                var json = JSON.parse(data); //txt trong data -> obj json
+                console.log(json)
+                var noidung_ds_PhieuNhap_html = "";
+
+                if (json.ok) {
+                    noidung_ds_PhieuNhap_html += `<table class="w3-table-all w3-hoverable">
+                   <thead>
+                   <tr>
+                     <th>STT</th>
+                     <th>Mã Phiếu Nhập</th>
+                     <th>Ngày Nhập</th>
+                    
+                     <th>Sửa/xóa</th>
+                   </tr>
+                   </thead><tbody>`;
+                    //duyet json -> noidung_ds_cty_html xịn
+                    var stt = 0;
+
+                    for (var PhieuNhap of json.data) {
+                        //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
+                        var sua_xoa = `<button class="w3-button w3-round nut-sua-xoa" data-cid="${PhieuNhap.maphieunhap}"  data-action="edit_PhieuNhap">Sửa</button>`;
+                        sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" data-cid="${PhieuNhap.maphieunhap}" data-action="delete_PhieuNhap">Xóa</button>`;
+                        sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" id="nut-chi-tiet"data-cid="${PhieuNhap.maphieunhap}" data-action="more_PhieuNhap">Chi Tiết</button>`;
+                        noidung_ds_PhieuNhap_html += `
+                     <tr>
+                     <td>${++stt}</td>
+                  
+                     <td>${PhieuNhap.maphieunhap}</td>
+                     <td>${PhieuNhap.mancc}</td>
+                      <td>${PhieuNhap.ngaynhap}</td>
+ 
+                     <td>${sua_xoa}</td>
+                   </tr>`;
+                    }
+
+                    noidung_ds_PhieuNhap_html += "</tbody></table>";
+                } else {
+
+                    noidung_ds_PhieuNhap_html = "không có dữ liệu";
+                }
+                //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
+                $('#ds_phieunhap').html(noidung_ds_PhieuNhap_html); //gán html vào thân dialog
+
+                //trong html vừa đua vào có nhiều nút sửa và xóa, đều có class nut-sua-xoa
+                //selector này tóm đc mọi nút
+                $('.nut-sua-xoa').click(function () {
+                    //phân biệt các nút bằng data kèm theo
+                    var action = $(this).data('action')  //lấy action kèm theo
+                    var id = $(this).data('cid')  //lấy cid kèm theo
+                    if (action == 'delete_PhieuNhap') { //dùng action
+                        //can xac nhan
+                        delete_PhieuNhap(id, json); //dùng id vào đây để hàm này xử, cho khỏi rối code
+                    } else if (action == 'edit_PhieuNhap') {
+                        //ko can xac nhan
+                        edit_PhieuNhap(id, json);
+                    }
+                    else if (action == 'more_PhieuNhap') {
+                        //ko can xac nhan
+                        list_CTPhieuNhap(id,json);
+                    }
+
+                });
+            })
+    }
+    function add_PhieuNhap() {
+        var content = `
+        Mã Phiếu Nhập:  <input class="w3-input" type="text" id="nhap-maphieunhap" "><br>
+        Mã Nhà Cung cấp:  <input class="w3-input" type="text" id="nhap-mancc" "><br> 
+         Ngày Nhập:  <input class="w3-input" type="text" id="nhap-ngaynhap" "><br>
+     
+                      `;
+        var dialog_add = $.confirm({
+            title: 'Thêm Phiếu Nhập',
+            content: content,
+            columnClass: 'large',
+            boxWidth: '50%',
+            useBootstrap: false,
+
+            type: 'green',
+            buttons: {
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+
+                        var data_gui_di = {
+                            action: 'add_PhieuNhap',
+
+                            maphieunhap: $('#nhap-maphieunhap').val(),
+                            mancc: $('#nhap-mancc').val(),
+                            ngaynhap: $('#nhap-ngaynhap').val(),
+                           
+
+
+                        };
+
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_add.close();
+                                cap_nhat_PhieuNhap();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    }
+    function edit_PhieuNhap(id, json) {
+        var PhieuNhap;
+        for (var item of json.data) {
+            if (item.maphieunhap == id) {
+                PhieuNhap = item;
+
+                break;
+            }
+        }
+        var content = `
+        
+      Mã Phiếu Nhập:    <input class="w3-input" type="text" id="edit-maphieunhap" value="${PhieuNhap.maphieunhap}"><br> 
+      Mã Nhà Cung Cấp :    <input class="w3-input" type="text" id="edit-mancc" value="${PhieuNhap.mancc}"><br> 
+      Ngày Nhập:    <input class="w3-input" type="text" id="edit-ngaynhap" value="${PhieuNhap.ngaynhap}"><br> 
+      
+    `;
+
+        var dialog_edit = $.confirm({
+            title: 'Edit Phiếu Nhập',
+            content: content,
+            /* columnClass: 'large',*/
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'green',
+
+            buttons: {
+
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'edit_PhieuNhap',
+                            mancc: $('#edit-mancc').val(),
+                            ngaynhap: $('#edit-ngaynhap').val(),
+                            maphieunhap: id,
+                        };
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_edit.close();
+                                cap_nhat_PhieuNhap(id,json);
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    }
+    function delete_PhieuNhap(id, json) {
+        var PhieuNhap;
+        for (var item of json.data) {
+            if (item.maphieunhap == id) {
+                PhieuNhap = item;
+                break;
+            }
+        }
+        //xác nhận trước khi xóa
+        var dialog_xoa = $.confirm({
+            title: `Xác nhận xóa phiếu nhập: ${PhieuNhap.maphieunhap}`,
+            content: `Xác nhận xóa?`,
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'red',
+            buttons: {
+
+                YES: {
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'delete_PhieuNhap',
+                            maphieunhap: id, //gửi đi id của sách xóa: api, sp sẽ làm phần còn lại
+                        }
+                        console.log(data_gui_di);
+                        $.post(api, data_gui_di, function (data) {
+                            //đợi data là json string text gửi về
+                            var json = JSON.parse(data); //json string text => obj
+                            if (json.ok) { //dùng obj
+                                dialog_xoa.close();
+                                alert('Xóa thành công!')
+                                cap_nhat_PhieuNhap();  //vẽ lại kq mới
+                            } else {
+                                alert(json.msg) // lỗi gì ở trên lo, ta cứ show ra thôi
+                            }
+                        })
+                    }
+                },
+                NO: {
+
+                }
+            }
+        })
+    }
+    function list_PhieuNhap() {
+        var dialog_list_NCC = $.confirm({
+            title: "Danh Sách Phiếu Nhập",
+            content: `<div id="ds_phieunhap">loading...</div>`,
+            columnClass: 'large',
+            buttons: {
+                add: {
+                    btnClass: 'btn-green',
+                    text: 'Thêm Phiếu Nhập',
+                    action: function () {
+                        add_PhieuNhap();
+                        return false; // ko đóng dialog
+                    }
+                },
+                close: {
+
+                }
+            },
+            onContentReady: function () {
+                //alert('dialog show ok')
+                //hoi api: ds cong ty la json nao?
+                cap_nhat_PhieuNhap(); //fill html vào thêm dialog tại 
+            }
+        });
+    }
+    $('#phieunhap').click(function () {
+        list_PhieuNhap();
+
+    });
+    /* ----end Phiếu Nhập----*/
+    /*----Chi tiết phiếu nhập----*/
+
+    function cap_nhat_ChiTietPhieuNhap() {
+        $.post(api,
+            {
+                action: 'list_ChiTietNhap'
+            },
+            function (data) {
+                alert(data)
+                var json = JSON.parse(data); //txt trong data -> obj json
+                console.log(json)
+                var noidung_ds_ChiTietNhap_html = "";
+
+                if (json.ok) {
+                    noidung_ds_ChiTietNhap_html += `<table class="w3-table-all w3-hoverable">
+                   <thead>
+                   <tr>
+                     <th>STT</th>
+                     <th>Mã Phiếu Nhập</th>
+                     <th>Mã Đầu Sách</th>
+                     <th>Tên Sách</th>
+                     <th>Số Lượng</th>
+                     <th>Đơn Giá</th
+                    
+                     <th>Sửa/xóa</th>
+                   </tr>
+                   </thead><tbody>`;
+                    //duyet json -> noidung_ds_cty_html xịn
+                    var stt = 0;
+
+                    for (var CTPhieuNhap of json.data) {
+                        //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
+                        var sua_xoa = `<button class="w3-button w3-round nut-sua-xoa" data-cid="${CTPhieuNhap.maphieunhap}"  data-action="edit_ChiTietNhap">Sửa</button>`;
+                        sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" data-cid="${CTPhieuNhap.maphieunhap}" data-action="delete_ChiTietNhap">Xóa</button>`;
+                        
+                        noidung_ds_ChiTietNhap_html += `
+                     <tr>
+                     <td>${++stt}</td>
+                  
+                     <td>${CTPhieuNhap.maphieunhap}</td>
+                     <td>${CTPhieuNhap.madausach}</td>
+                      <td>${CTPhieuNhap.tensach}</td>
+                      <td>${CTPhieuNhap.soluong}</td>
+                      <td>${CTPhieuNhap.dongia}</td>
+ 
+                     <td>${sua_xoa}</td>
+                   </tr>`;
+                    }
+
+                    noidung_ds_ChiTietNhap_html += "</tbody></table>";
+                } else {
+
+                    noidung_ds_ChiTietNhap_html = "không có dữ liệu";
+                }
+                //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
+                $('#ds_chitietphieunhap').html(noidung_ds_ChiTietNhap_html); //gán html vào thân dialog
+
+                //trong html vừa đua vào có nhiều nút sửa và xóa, đều có class nut-sua-xoa
+                //selector này tóm đc mọi nút
+                $('.nut-sua-xoa').click(function () {
+                    //phân biệt các nút bằng data kèm theo
+                    var action = $(this).data('action')  //lấy action kèm theo
+                    var id = $(this).data('cid')  //lấy cid kèm theo
+                    if (action == 'delete_ChiTietNhap') { //dùng action
+                        //can xac nhan
+                        delete_ChiTietPhieuNhap(id, json); //dùng id vào đây để hàm này xử, cho khỏi rối code
+                    } else if (action == 'edit_ChiTietNhap') {
+                        //ko can xac nhan
+                        edit_ChiTietPhieuNhap(id, json);
+                    }
+                    
+
+                });
+            })
+    }
+    function add_ChiTietPhieuNhap() {
+        var content = `
+        Mã Phiếu Nhập:  <input class="w3-input" type="text" id="nhap-maphieunhap" "><br>
+        Mã Đầu Sách:  <input class="w3-input" type="text" id="nhap-madausach" "><br> 
+        Tên Sách:  <input class="w3-input" type="text" id="nhap-tensach" "><br>
+        Số Lượng:  <input class="w3-input" type="text" id="nhap-soluong" "><br>
+        Đơn Giá:  <input class="w3-input" type="text" id="nhap-dongia" "><br>
+     
+                      `;
+        var dialog_add = $.confirm({
+            title: 'Thêm Sách Vào Phiếu',
+            content: content,
+            columnClass: 'large',
+            boxWidth: '50%',
+            useBootstrap: false,
+
+            type: 'green',
+            buttons: {
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+
+                        var data_gui_di = {
+                            action: 'add_ChiTietNhap',
+
+                            maphieunhap: $('#nhap-maphieunhap').val(),
+                            madausach: $('#nhap-madausach').val(),
+                            tensach: $('#nhap-tensach').val(),
+                            soluong: $('#nhap-soluong').val(), 
+                            dongia: $('#nhap-dongia').val(), 
+
+                        };
+
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_add.close();
+                                cap_nhat_ChiTietPhieuNhap();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    }
+    function edit_ChiTietPhieuNhap(id, json) {
+        var CTPhieuNhap;
+        for (var item of json.data) {
+            if (item.maphieunhap == id) {
+                CTPhieuNhap = item;
+
+                break;
+            }
+        }
+        var content = `
+        
+      Mã Phiếu Nhập:    <input class="w3-input" type="text" id="edit-maphieunhap" value="${CTPhieuNhap.maphieunhap}"><br> 
+      Mã Đầu Sách :    <input class="w3-input" type="text" id="edit-madausach" value="${CTPhieuNhap.madausach}"><br> 
+      Tên Sách :    <input class="w3-input" type="text" id="edit-tensach" value="${CTPhieuNhap.tensach}"><br> 
+      Số Lượng :    <input class="w3-input" type="text" id="edit-soluong" value="${CTPhieuNhap.soluong}"><br>
+      Đơn Giá :    <input class="w3-input" type="text" id="edit-dongia" value="${CTPhieuNhap.dongia}"><br>
+      
+    `;
+
+        var dialog_edit = $.confirm({
+            title: 'Edit  Chi Tiết Phiếu Nhập',
+            content: content,
+            /* columnClass: 'large',*/
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'green',
+
+            buttons: {
+
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'edit_ChiTietNhap',
+                            madausach: $('#edit-madausach').val(),
+                            tensach: $('#edit-tensach').val(), 
+                            soluong: $('#edit-soluong').val(),
+                            dongia: $('#edit-dongia').val(),
+                            maphieunhap: id,
+                        };
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_edit.close();
+                                cap_nhat_ChiTietPhieuNhap(id, json);
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    }
+    function delete_ChiTietPhieuNhap(id, json) {
+        var CTPhieuNhap;
+        for (var item of json.data) {
+            if (item.maphieunhap == id) {
+                CTPhieuNhap = item;
+                break;
+            }
+        }
+        //xác nhận trước khi xóa
+        var dialog_xoa = $.confirm({
+            title: `Xác nhận xóa Chi Tiết phiếu nhập: ${CTPhieuNhap.maphieunhap}`,
+            content: `Xác nhận xóa?`,
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'red',
+            buttons: {
+
+                YES: {
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'delete_ChiTietNhap',
+                            maphieunhap: id, //gửi đi id của sách xóa: api, sp sẽ làm phần còn lại
+                        }
+                        console.log(data_gui_di);
+                        $.post(api, data_gui_di, function (data) {
+                            //đợi data là json string text gửi về
+                            var json = JSON.parse(data); //json string text => obj
+                            if (json.ok) { //dùng obj
+                                dialog_xoa.close();
+                                alert('Xóa thành công!')
+                                cap_nhat_ChiTietNhap();  //vẽ lại kq mới
+                            } else {
+                                alert(json.msg) // lỗi gì ở trên lo, ta cứ show ra thôi
+                            }
+                        })
+                    }
+                },
+                NO: {
+
+                }
+            }
+        })
+    }
+    function list_ChiTietPhieuNhap() {
+        var dialog_list_CTN = $.confirm({
+            title: "Danh Sách Chi Tiết Phiếu Nhập",
+            content: `<div id="ds_chitietphieunhap">loading...</div>`,
+            columnClass: 'large',
+            buttons: {
+                add: {
+                    btnClass: 'btn-green',
+                    text: 'Thêm Chi Tiết Phiếu Nhập',
+                    action: function () {
+                        add_ChiTietPhieuNhap();
+                        return false; // ko đóng dialog
+                    }
+                },
+                close: {
+
+                }
+            },
+            onContentReady: function () {
+                //alert('dialog show ok')
+                //hoi api: ds cong ty la json nao?
+                cap_nhat_ChiTietPhieuNhap(); //fill html vào thêm dialog tại 
+            }
+        });
+    }
+    $('#ctphieunhap').click(function () {
+        //phân biệt các nút bằng data kèm theo
+        list_ChiTietPhieuNhap();
+        
+
+
+    });
+/*----end CHi tiết phiếu nhập----*/
+
 })
 
 
