@@ -210,7 +210,7 @@ list-item,.content-tab{
 
 .container {
     margin: 0 8px;
-    background-color: #1E6771;
+   /* background-color: #1E6771;*/
     border: 2px ;
 }
 
@@ -243,15 +243,9 @@ input#timkiemsv {
     display: inline-flex;
     max-width: 300px;
 }
-.thanhtimkiem {
-    padding: 5px;
-}
 input#timkiemsach {
-    height: 31px;
-}
-/* --end  time kiem--*/
-button#themsach {
-    background-color: lawngreen;
+    width: 153px;
+    height: 36px;
 }
 
 /*trang chủ*/

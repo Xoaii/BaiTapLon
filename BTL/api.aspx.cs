@@ -110,10 +110,80 @@ namespace BTL
 
             switch (action)
             {
-                case "add_DauSach":
+               
                 case "edit_DauSach":
                 case "delete_DauSach":
                     cm.Parameters.Add("@madausach", SqlDbType.NVarChar, 100).Value = Request["madausach"];
+                    break;
+            }
+
+            //thuc thi
+            string json = (string)db.Scalar(cm);
+            Response.Write(json);
+        }
+        void xuly_ThuThu(string action)
+        {
+            //kb db .. tv sp action
+            SqlServer db = new SqlServer();
+            SqlCommand cm = db.GetCmd("SP_ThuThu", action);
+
+            switch (action)
+            {
+                case "add_ThuThu":
+                case "edit_ThuThu":
+
+                    cm.Parameters.Add("@hoten", SqlDbType.NVarChar, 200).Value = Request["hoten"];
+                    cm.Parameters.Add("@ngaysinh", SqlDbType.Date, 200).Value = Request["ngaysinh"];
+                    cm.Parameters.Add("@diachi", SqlDbType.NVarChar, 200).Value = Request["diachi"];
+                    cm.Parameters.Add("@gioitinh", SqlDbType.NVarChar, 50).Value = Request["gioitinh"];
+                    cm.Parameters.Add("@sdt", SqlDbType.NVarChar,50).Value = Request["sdt"];
+                    cm.Parameters.Add("@email", SqlDbType.NVarChar, 50).Value = Request["email"];
+                    cm.Parameters.Add("@password", SqlDbType.NVarChar, 50).Value = Request["password"];
+
+                    break;
+
+            }
+
+            switch (action)
+            {
+                case "add_ThuThu":
+                case "edit_ThuThu":
+                case "delete_ThuThu":
+                    cm.Parameters.Add("@mathuthu", SqlDbType.NVarChar, 200).Value = Request["mathuthu"];
+                    break;
+            }
+
+            //thuc thi
+            string json = (string)db.Scalar(cm);
+            Response.Write(json);
+        }
+        void xuly_NCC(string action)
+        {
+            //kb db .. tv sp action
+            SqlServer db = new SqlServer();
+            SqlCommand cm = db.GetCmd("SP_NCC", action);
+
+            switch (action)
+            {
+                case "add_NCC":
+                case "edit_NCC":
+
+                    
+                    cm.Parameters.Add("@tenncc", SqlDbType.NVarChar, 100).Value = Request["tenncc"];
+                    cm.Parameters.Add("@diachi", SqlDbType.NVarChar,100).Value = Request["diachi"];
+                    cm.Parameters.Add("@sdt", SqlDbType.NVarChar,50).Value = Request["sdt"];
+                    ;
+
+                    break;
+
+            }
+
+            switch (action)
+            {
+                case "add_NCC":
+                case "edit_NCC":
+                case "delete_NCC":
+                    cm.Parameters.Add("@mancc", SqlDbType.NVarChar, 100).Value = Request["mancc"];
                     break;
             }
 
@@ -148,8 +218,18 @@ namespace BTL
                 case "delete_DauSach":
                       xuly_DauSach(action);
                     break;
-                
-
+                case "list_ThuThu":
+                case "add_ThuThu":
+                case "edit_ThuThu":
+                case "delete_ThuThu":
+                    xuly_ThuThu(action);
+                    break;
+                case "list_NCC":
+                case "add_NCC":
+                case "edit_NCC":
+                case "delete_NCC":
+                    xuly_NCC(action);
+                    break;
             }
         }
     }

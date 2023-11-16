@@ -23,228 +23,243 @@
 </head>
 <body>
 
-        <!-- Header -->
-        <header class="header">
-            <div class="main-content">
-                <div class="body">
-                    <!-- Sửa header dưới đây -->
+    <!-- Header -->
+    <header class="header">
+        <div class="main-content">
+            <div class="body">
+                <!-- Sửa header dưới đây -->
 
-                    <a href="/">
-                        <img src="img/pngwing.com.png" class="logo"/>
-                            
-                             
+                <a href="/">
+                    <img src="img/pngwing.com.png" class="logo" />
+
+
+                </a>
+
+                <nav class="nav">
+                    <ul>
+                        <li class="tab-item active">
+                            <a href="#!">TRANG CHỦ</a>
+                        </li>
+                        <li class="tab-item" id="tab-sach">
+                            <a href="#!">SÁCH</a>
+                        </li>
+                        <li class="tab-item" id="tab-sinhvien">
+                            <a href="#!">SINH VIÊN</a>
+                        </li>
+                        <li class="tab-item">
+                            <a href="#!">QUẢN LÝ</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="user primary">Xin chào </div>
+                <div class="action">
+                    <a href="#!" class="btn sign-up-btn primary hide">Đăng nhập</a>
+                    <a href="#!" class="btn sign-up-btn primary hide">Đăng ký</a>
+                    <a href="#!" class="btn sign-up-btn danger">Đăng xuất</a>
+                </div>
+
+                <!-- Sửa header đến đây -->
+            </div>
+        </div>
+    </header>
+    <!-- END HEADER -->
+    <!-- THẺ MAIN chứa toàn bộ nội dung trang web và thanh điều hướng chức năng -->
+    <main class="main row">
+        <!--  =========  ĐIỀU HƯỚNG ================-->
+        <div class="dieu-huong">
+            <div class="head-dieu-huong">
+                <i class="fa-solid fa-list-check"></i>
+                <p>TÍNH NĂNG</p>
+
+            </div>
+            <!-- Điều hướng trang chủ -->
+            <ul class="list-dieu-huong list-pane active">
+                <img src="img/Logo ĐH Kỹ Thuật Công Nghiệp - Đại Học Thái Nguyên - TNUT.png" />
+                <div class="sname">
+                    Trường Đại học kỹ thuật công nghiệp<br><span class="small fw-400">Thainguyen  university of technology</span>
+                </div>
+                <!--<li class="item-dieu-huong list-item "  >
+                    <a href="#1">
+                        <i ></i>Trang Chủ 1
                     </a>
+                </li>
+                <li class="item-dieu-huong list-item active">
+                    <a href="#2">
+                        <i ></i> Trang Chủ 2
+                    </a>
+                </li>-->
+            </ul>
+            <!-- Điều hướng sách -->
+            <ul class="list-dieu-huong list-pane">
 
-                    <nav class="nav">
-                        <ul>
-                            <li class="tab-item active">
-                                <a href="#!">TRANG CHỦ</a>
-                            </li>
-                            <li class="tab-item">
-                                <a href="#!">SÁCH</a>
-                            </li>
-                            <li class="tab-item">
-                                <a href="#!">SINH VIÊN</a>
-                            </li>
-                            <li class="tab-item">
-                                <a href="#!">QUẢN LÝ</a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div class="user primary">Xin chào </div>
-                    <div class="action">
-                        <a href="#!" class="btn sign-up-btn primary hide">Đăng nhập</a>
-                        <a href="#!" class="btn sign-up-btn primary hide">Đăng ký</a>
-                        <a href="#!" class="btn sign-up-btn danger">Đăng xuất</a>
-                    </div>
-
-                    <!-- Sửa header đến đây -->
-                </div>
-            </div>
-        </header>
-        <!-- END HEADER -->
-        <!-- THẺ MAIN chứa toàn bộ nội dung trang web và thanh điều hướng chức năng -->
-        <main class="main row">
-            <!--  =========  ĐIỀU HƯỚNG ================-->
-            <div class="dieu-huong">
-                <div class="head-dieu-huong">
-                    <i class="fa-solid fa-list-check"></i>
-                    <p>TÍNH NĂNG</p>
-                   
-                </div>
-                <!-- Điều hướng trang chủ -->
-                <ul class="list-dieu-huong list-pane active">
-                    <img src="img/Logo ĐH Kỹ Thuật Công Nghiệp - Đại Học Thái Nguyên - TNUT.png" />
-                    <div class="sname">
-                        Trường Đại học kỹ thuật công nghiệp<br><span class="small fw-400">Thainguyen  university of technology</span>
-                    </div>
-                    <!--<li class="item-dieu-huong list-item "  >
-        <a href="#1">
-            <i ></i>Trang Chủ 1
-        </a>
-    </li>
-    <li class="item-dieu-huong list-item active">
-        <a href="#2">
-            <i ></i> Trang Chủ 2
-        </a>
-    </li>-->
-                </ul>
-                <!-- Điều hướng sách -->
-                <ul class="list-dieu-huong list-pane">
-                    
-                    <li class="item-dieu-huong list-item " id="sach" >
-                        <a href="#!">
-                            <i></i>Sách
-                        </a>
-                    </li>
-                    <li class="item-dieu-huong list-item active" id="dausach" >
-                        <a href="#!">
-                            <i></i>Đầu Sách
-                        </a>
-                    </li>
-                </ul>
-                <!-- Điều hướng Sinh Viên -->
-                <ul class="list-dieu-huong list-pane">
-                    <li class="item-dieu-huong list-item " >
-                        <a href="#!">
-                            <input type="text" placeholder="Search.." id="timkiemsv">
-                            <button type="submit" class="fa fa-search w3-button w3-round" id="btn-timsv">
-                            </button>
-                        </a>
-                    </li>
-                    <li class="item-dieu-huong list-item active" id="themsv">
-                        <a href="#!">
-                            <i ></i>+ Thêm Sinh viên
-                            
-                        </a>
-                    </li>
-                </ul>
-                <!-- Điều hướng nhà cung cấp -->
-                <ul class="list-dieu-huong list-pane">
-                    <li class="item-dieu-huong list-item ">
-                        <a href="#1">
-                            <i ></i>Ý kiến
-                            1
-                        </a>
-                    </li>
-                    <li class="item-dieu-huong list-item active">
-                        <a href="#2">
-                            <i ></i>Ý kiến
-                            2
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- ============= NỘI DUNG =========== -->
-            <div class="noi-dung">
-                <!--========= Trang Chủ ========-->
-                
-                <div class="trang-chu tab-pane active">
-                    <div class="blinking-text">
-                        <i class="w3-xxlarge w3-spin w3-text-blue w3-margin-right fa fa-spinner"></i>
-                        CHÀO MỪNG ĐẾN THƯ VIỆN
-                        <i class="w3-xxlarge w3-spin w3-text-blue w3-margin-left fa fa-spinner"></i>
-                    </div>
-
-                    <div class="w3-content w3-section">
-
-                        <img class="mySlides" src="img/tnut1.png" style="width:100%">
-                        <img class="mySlides" src="img/tnut2.png" style="width:100%">
-                        <img class="mySlides" src="img/tnut3.png" style="width:100%">
-                        <img class="mySlides" src="img/tnut4.png" style="width:100%">
-
-                    </div>
-                    <div class="library-container">
-                        <h1>Thư Viện TNUT</h1>
-                        <p>Đồng hành cùng sự phát triển học thuật và nghiên cứu</p>
-
-                        <section>
-                            <h2>Sứ Mệnh</h2>
-                            <p>Thư viện TNUT cam kết cung cấp một môi trường học thuật độc đáo và chất lượng, hỗ trợ quá trình học tập, nghiên cứu, và phát triển cá nhân của cộng đồng TNUT.</p>
-                        </section>
-
-                        <section>
-                            <h2>Cơ Sở Vật Chất</h2>
-                            <p>Thư viện TNUT được trang bị với cơ sở vật chất hiện đại, kết hợp với không gian tĩnh lặng và thoải mái. Đọc giả có thể tận hưởng không gian nghiên cứu, truy cập Internet, và sử dụng các nguồn tài nguyên đa dạng.</p>
-                        </section>
-
-                        <section>
-                            <h2>Tài Nguyên Đa Dạng</h2>
-                            <p>Thư viện cung cấp một bộ sưu tập đa dạng về sách, tạp chí, bản tin khoa học, và tài liệu điện tử để hỗ trợ nghiên cứu và học tập.</p>
-                        </section>
-
-                        <section>
-                            <h2>Dịch Vụ Hỗ Trợ</h2>
-                            <p>Đội ngũ thư thư chuyên nghiệp và nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ đọc giả với các dịch vụ mượn sách, tư vấn thông tin, và hướng dẫn sử dụng tài nguyên.</p>
-                        </section>
-
-                        <section>
-                            <h2>Nền Tảng Trực Tuyến</h2>
-                            <p>Thư viện TNUT không chỉ tồn tại trong không gian vật lý mà còn mở rộng sự tiện lợi qua nền tảng trực tuyến, nơi đọc giả có thể truy cập nhanh chóng các tài nguyên điện tử.</p>
-                        </section>
-                    </div>
-                    <footer>
-                        &copy; 2023 Thư Viện TNUT. Xoaii & Ningguang.
-                    </footer>
-
-                    <!--<div class="container">
-       adad
-         tự tạo thằng này vào trong
-        <div class="ndtrangchu content-tab active ">
-
-            <h1>Loading1...</h1>
-
-        </div>
-        <div class="ndtrangchu2 content-tab ">
-
-            <h1>Loading2...</h1>
-
-        </div>
-    </div>-->
-                </div>
-                <!--======== Sách ============-->
-                <div class="sach tab-pane">
-                    <div class="thanhtimkiem">
-                        Tìm Kiếm:
-
+                <!--<li class="item-dieu-huong list-item "  >
+                    <a href="#!">
+                        <i></i>Sách
+                    </a>
+                </li>
+                <li class="item-dieu-huong list-item active"  >
+                    <a href="#!">
+                        <i></i>Đầu Sách
+                    </a>
+                </li>-->
+                <li class="item-dieu-huong list-item ">
+                    <a href="#!">
                         <input type="text" placeholder="Search.." id="timkiemsach">
                         <button type="submit" class="fa fa-search w3-button w3-round" id="btn-timsach">
                         </button>
-                        <button class="w3-button w3-round-xlarge nut-sua-xoa" id="themsach">
-                            Thêm Sách
+                    </a>
+                </li>
+                <li class="item-dieu-huong list-item active" id="themsach">
+                    <a href="#!">
+                        <i></i>+ Thêm Sách
+
+                    </a>
+                </li>
+            </ul>
+            <!-- Điều hướng Sinh Viên -->
+            <ul class="list-dieu-huong list-pane">
+                <li class="item-dieu-huong list-item ">
+                    <a href="#!">
+                        <input type="text" placeholder="Search.." id="timkiemsv">
+                        <button type="submit" class="fa fa-search w3-button w3-round" id="btn-timsv">
                         </button>
+                    </a>
+                </li>
+                <li class="item-dieu-huong list-item active" id="themsv">
+                    <a href="#!">
+                        <i></i>+ Thêm Sinh viên
 
-                    </div>
-                    <div class="container">
-                        <div class="ndsach content-tab active">
+                    </a>
+                </li>
+            </ul>
+            <!-- Điều hướng quản lý -->
+            <ul class="list-dieu-huong list-pane">
+                <li class="item-dieu-huong list-item " id="dausach">
+                    <a href="#!">
 
-                            <h1>Loading...</h1>
+                        <i></i>Đầu Sách
+                    </a>
+                </li>
+                <li class="item-dieu-huong list-item active" id="thuthu">
+                    <a href="#!">
+                        <i></i>Thủ thư
+                    </a>
+                </li>
+                <li class="item-dieu-huong list-item active" id="ncc">
+                    <a href="#!">
+                        <i></i>Nhà Cung Cấp
+                    </a>
+                </li>
+            </ul>
 
-                        </div>
-                        <div class="nddausach content-tab ">
+        </div>
 
-                            <h1>Loading...</h1>
+        <!-- ============= NỘI DUNG =========== -->
+        <div class="noi-dung">
+            <!--========= Trang Chủ ========-->
 
-                        </div>
-                    </div>
+            <div class="trang-chu tab-pane active">
+                <div class="blinking-text">
+                    <i class="w3-xxlarge w3-spin w3-text-blue w3-margin-right fa fa-spinner"></i>
+                    CHÀO MỪNG ĐẾN THƯ VIỆN
+                    <i class="w3-xxlarge w3-spin w3-text-blue w3-margin-left fa fa-spinner"></i>
                 </div>
-                <!-- ========= Sinh VIên ========= -->
-                <div class="sinh-vien tab-pane">
-                    <div class="container">
-                        <h1>sinh viên</h1>
-                    </div>
+
+                <div class="w3-content w3-section">
+
+                    <img class="mySlides" src="img/tnut1.png" style="width:100%">
+                    <img class="mySlides" src="img/tnut2.png" style="width:100%">
+                    <img class="mySlides" src="img/tnut3.png" style="width:100%">
+                    <img class="mySlides" src="img/tnut4.png" style="width:100%">
+
                 </div>
-                <!-- ==========QUẢN LÝ ============-->
-                <div class="nha-cung-cap tab-pane">
-                    <div class="container">
-                        <h1>nhà cung cấp</h1>
+                <div class="library-container">
+                    <h1>Thư Viện TNUT</h1>
+                    <p>Đồng hành cùng sự phát triển học thuật và nghiên cứu</p>
+
+                    <section>
+                        <h2>Sứ Mệnh</h2>
+                        <p>Thư viện TNUT cam kết cung cấp một môi trường học thuật độc đáo và chất lượng, hỗ trợ quá trình học tập, nghiên cứu, và phát triển cá nhân của cộng đồng TNUT.</p>
+                    </section>
+
+                    <section>
+                        <h2>Cơ Sở Vật Chất</h2>
+                        <p>Thư viện TNUT được trang bị với cơ sở vật chất hiện đại, kết hợp với không gian tĩnh lặng và thoải mái. Đọc giả có thể tận hưởng không gian nghiên cứu, truy cập Internet, và sử dụng các nguồn tài nguyên đa dạng.</p>
+                    </section>
+
+                    <section>
+                        <h2>Tài Nguyên Đa Dạng</h2>
+                        <p>Thư viện cung cấp một bộ sưu tập đa dạng về sách, tạp chí, bản tin khoa học, và tài liệu điện tử để hỗ trợ nghiên cứu và học tập.</p>
+                    </section>
+
+                    <section>
+                        <h2>Dịch Vụ Hỗ Trợ</h2>
+                        <p>Đội ngũ thư thư chuyên nghiệp và nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ đọc giả với các dịch vụ mượn sách, tư vấn thông tin, và hướng dẫn sử dụng tài nguyên.</p>
+                    </section>
+
+                    <section>
+                        <h2>Nền Tảng Trực Tuyến</h2>
+                        <p>Thư viện TNUT không chỉ tồn tại trong không gian vật lý mà còn mở rộng sự tiện lợi qua nền tảng trực tuyến, nơi đọc giả có thể truy cập nhanh chóng các tài nguyên điện tử.</p>
+                    </section>
+                </div>
+                <footer>
+                    &copy; 2023 Thư Viện TNUT. Xoaii & Ningguang.
+                </footer>
+
+                <!--<div class="container">
+                   adad
+                     tự tạo thằng này vào trong
+                    <div class="ndtrangchu content-tab active ">
+
+                        <h1>Loading1...</h1>
+
+                    </div>
+                    <div class="ndtrangchu2 content-tab ">
+
+                        <h1>Loading2...</h1>
+
+                    </div>
+                </div>-->
+            </div>
+            <!--======== Sách ============-->
+            <div class="sach tab-pane">
+                <!--<div class="thanhtimkiem">
+                    Tìm Kiếm:
+
+                    <input type="text" placeholder="Search.." id="timkiemsach">
+                    <button type="submit" class="fa fa-search w3-button w3-round" id="btn-timsach">
+                    </button>
+                    <button class="w3-button w3-round-xlarge nut-sua-xoa" id="themsach">
+                        Thêm Sách
+                    </button>-->
+
+                <div class="container">
+                    <h1>Loading...</h1>
+                </div>
+            </div>
+            <!-- ========= Sinh VIên ========= -->
+            <div class="sinh-vien tab-pane">
+                <div class="container">
+                    <h1>sinh viên</h1>
+                </div>
+            </div>
+            <!-- ==========QUẢN LÝ ============-->
+            <div class="quan-ly tab-pane">
+                <div class="container">
+
+                    <div class="nd-dausach content-tab ">
+                        
+                        <h1>Loading...</h1>
+                    </div>
+                    <div class="nd-thuthu content-tab active">
+                        <h1>Loading2gfdgdfgdfgdfg...</h1>
                     </div>
                 </div>
             </div>
-        </main>
-        <!-- THẺ MAIN -->
-
-    </body>
+        </div>
+    </main>
+    <!-- THẺ MAIN -->
+   
+</body>
 
 </html>
