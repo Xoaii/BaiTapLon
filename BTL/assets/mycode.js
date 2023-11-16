@@ -798,7 +798,7 @@
             buttons: {
                 add: {
                     btnClass: 'btn-green',
-                    text: 'Thêm công ty',
+                    text: 'Thêm Đầu Sách',
                     action: function () {
                         add_Dausach();
                         return false; // ko đóng dialog_list_company
@@ -1333,6 +1333,108 @@
             }
         });
     }
+    function edit_NCC(id, json) {
+        var ncc;
+        for (var item of json.data) {
+            if (item.mancc == id) {
+                ncc = item;
+
+                break;
+            }
+        }
+        var content = `
+        
+      Tên Nhà Cung Cấp:    <input class="w3-input" type="text" id="edit-tenncc" value="${ncc.tenncc}"><br> 
+
+       Địa Chỉ:   <input class="w3-input" type="text" id="edit-diachi" value="${ncc.diachi}"><br> 
+
+       sdt:      <input class="w3-input" type="text" id="edit-sdt" value="${ncc.sdt}"><br> 
+     
+    `;
+
+        var dialog_edit = $.confirm({
+            title: 'Edit Nhà cung cấp',
+            content: content,
+            /* columnClass: 'large',*/
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'green',
+
+            buttons: {
+
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'edit_NCC',
+                            tenncc: $('#edit-tenncc').val(),
+                            diachi: $('#edit-diachi').val(),
+                            sdt: $('#edit-sdt').val(),
+                            mancc: id,
+                        };
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_edit.close();
+                                cap_nhat_NCC();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    }
+    function delete_NCC(id, json) {
+        var ncc;
+        for (var item of json.data) {
+            if (item.mancc == id) {
+                ncc = item;
+                break;
+            }
+        }
+        //xác nhận trước khi xóa
+        var dialog_xoa = $.confirm({
+            title: `Xác nhận xóa Thủ Thư: ${ncc.mancc}`,
+            content: `Xác nhận xóa?`,
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'red',
+            buttons: {
+
+                YES: {
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'delete_NCC',
+                            mancc: id, //gửi đi id của sách xóa: api, sp sẽ làm phần còn lại
+                        }
+                        console.log(data_gui_di);
+                        $.post(api, data_gui_di, function (data) {
+                            //đợi data là json string text gửi về
+                            var json = JSON.parse(data); //json string text => obj
+                            if (json.ok) { //dùng obj
+                                dialog_xoa.close();
+                                alert('Xóa thành công!')
+                                cap_nhat_NCC();  //vẽ lại kq mới
+                            } else {
+                                alert(json.msg) // lỗi gì ở trên lo, ta cứ show ra thôi
+                            }
+                        })
+                    }
+                },
+                NO: {
+
+                }
+            }
+        })
+    }
     function list_NCC() {
         var dialog_list_NCC = $.confirm({
             title: "Danh Sách Nhà Cung Cấp",
@@ -1363,7 +1465,755 @@
         
 
     });
-   /*----end nhà cung cấp----*/
+    /*----end nhà cung cấp----*/
+    /*----Nhà xuất bản----*/
+    function cap_nhat_NXB() {
+        $.post(api,
+            {
+                action: 'list_nhaXB'
+            },
+            function (data) {
+
+                var json = JSON.parse(data); //txt trong data -> obj json
+                console.log(json)
+                var noidung_ds_NXB_html = "";
+
+                if (json.ok) {
+                    noidung_ds_NXB_html += `<table class="w3-table-all w3-hoverable">
+                   <thead>
+                   <tr>
+                     <th>STT</th>
+                     <th>Mã Nhà Nhà Xuất Bản</th>
+                     <th>Tên Nhà Xuất Bản</th>
+                     <th>Địa Chỉ</th>
+                     <th>SDT</th>
+                     
+                     <th>Sửa/xóa</th>
+                   </tr>
+                   </thead><tbody>`;
+                    //duyet json -> noidung_ds_cty_html xịn
+                    var stt = 0;
+
+                    for (var NXB of json.data) {
+                        //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
+                        var sua_xoa = `<button class="w3-button w3-round nut-sua-xoa" data-cid="${NXB.manxb}" data-action="edit_NXB">Sửa</button>`;
+                        sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" data-cid="${NXB.manxb}" data-action="delete_NXB">Xóa</button>`;
+                        noidung_ds_NXB_html += `
+                     <tr>
+                     <td>${++stt}</td>
+                  
+                     <td>${NXB.manxb}</td>
+                     <td>${NXB.tennxb}</td>
+                     <td>${NXB.diachi}</td>
+                     <td>${NXB.sdt}</td>
+
+                     <td>${sua_xoa}</td>
+                   </tr>`;
+                    }
+
+                    noidung_ds_NXB_html += "</tbody></table>";
+                } else {
+
+                    noidung_ds_NXB_html = "không có dữ liệu";
+                }
+                //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
+                $('#ds_NXB').html(noidung_ds_NXB_html); //gán html vào thân dialog
+
+                //trong html vừa đua vào có nhiều nút sửa và xóa, đều có class nut-sua-xoa
+                //selector này tóm đc mọi nút
+                $('.nut-sua-xoa').click(function () {
+                    //phân biệt các nút bằng data kèm theo
+                    var action = $(this).data('action')  //lấy action kèm theo
+                    var id = $(this).data('cid')  //lấy cid kèm theo
+                    if (action == 'delete_NXB') { //dùng action
+                        //can xac nhan
+                        delete_NXB(id, json); //dùng id vào đây để hàm này xử, cho khỏi rối code
+                    } else if (action == 'edit_NXB') {
+                        //ko can xac nhan
+                        edit_NXB(id, json);
+                    }
+
+                });
+            })
+    }
+    function add_NXB() {
+        var content = `
+        Mã Nhà Xuất Bản:  <input class="w3-input" type="text" id="nhap-manxb" "><br>
+        Tên Nhà Xuất Bản:  <input class="w3-input" type="text" id="nhap-tennxb" "><br> 
+          Địa Chỉ:  <input class="w3-input" type="text" id="nhap-diachi" "><br> 
+           SDT:  <input class="w3-input" type="text" id="nhap-sdt" "><br>
+                      `;
+        var dialog_add = $.confirm({
+            title: 'Thêm Nhà Xuất Bản',
+            content: content,
+            columnClass: 'large',
+            boxWidth: '50%',
+            useBootstrap: false,
+
+            type: 'green',
+            buttons: {
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+
+                        var data_gui_di = {
+                            action: 'add_nhaXB',
+
+                            manxb: $('#nhap-manxb').val(),
+                            tennxb: $('#nhap-tennxb').val(),
+                            diachi: $('#nhap-diachi').val(),
+                            sdt: $('#nhap-sdt').val(),
+
+                        };
+
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_add.close();
+                                cap_nhat_NXB();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    }
+    function edit_NXB(id, json) {
+        var nxb;
+        for (var item of json.data) {
+            if (item.manxb == id) {
+                nxb = item;
+
+                break;
+            }
+        }
+        var content = `
+        
+      Tên Nhà Xuất bản:    <input class="w3-input" type="text" id="edit-tennxb" value="${nxb.tennxb}"><br> 
+
+       Địa Chỉ:   <input class="w3-input" type="text" id="edit-diachi" value="${nxb.diachi}"><br> 
+
+       sdt:      <input class="w3-input" type="text" id="edit-sdt" value="${nxb.sdt}"><br> 
+     
+    `;
+
+        var dialog_edit = $.confirm({
+            title: 'Edit Nhà cung cấp',
+            content: content,
+            /* columnClass: 'large',*/
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'green',
+
+            buttons: {
+
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'edit_nhaXB',
+                            tennxb: $('#edit-tennxb').val(),
+                            diachi: $('#edit-diachi').val(),
+                            sdt: $('#edit-sdt').val(),
+                            manxb: id,
+                        };
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_edit.close();
+                                cap_nhat_NXB();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    }
+    function delete_NXB(id, json) {
+        var nxb;
+        for (var item of json.data) {
+            if (item.manxb == id) {
+                nxb = item;
+                break;
+            }
+        }
+        //xác nhận trước khi xóa
+        var dialog_xoa = $.confirm({
+            title: `Xác nhận xóa Nhà Xuất Bản: ${nxb.manxb}`,
+            content: `Xác nhận xóa?`,
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'red',
+            buttons: {
+
+                YES: {
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'delete_nhaXB',
+                            manxb: id, //gửi đi id của sách xóa: api, sp sẽ làm phần còn lại
+                        }
+                        console.log(data_gui_di);
+                        $.post(api, data_gui_di, function (data) {
+                            //đợi data là json string text gửi về
+                            var json = JSON.parse(data); //json string text => obj
+                            if (json.ok) { //dùng obj
+                                dialog_xoa.close();
+                                alert('Xóa thành công!')
+                                cap_nhat_NXB();  //vẽ lại kq mới
+                            } else {
+                                alert(json.msg) // lỗi gì ở trên lo, ta cứ show ra thôi
+                            }
+                        })
+                    }
+                },
+                NO: {
+
+                }
+            }
+        })
+    }
+    function list_NXB() {
+        var dialog_list_NCC = $.confirm({
+            title: "Danh Sách Nhà Xuất Bản",
+            content: `<div id="ds_NXB">loading...</div>`,
+            columnClass: 'large',
+            buttons: {
+                add: {
+                    btnClass: 'btn-green',
+                    text: 'Thêm Nhà Xuất Bản',
+                    action: function () {
+                        add_NXB();
+                        return false; // ko đóng dialog_list_company
+                    }
+                },
+                close: {
+
+                }
+            },
+            onContentReady: function () {
+                //alert('dialog show ok')
+                //hoi api: ds cong ty la json nao?
+                cap_nhat_NXB(); //fill html vào thêm dialog tại div#ds_thuthu
+            }
+        });
+    }
+    $('#nxb').click(function () {
+        list_NXB();
+
+
+    });
+    /*----end nhà xuất bản----*/
+    /*----Tác Giả----*/
+    function cap_nhat_TacGia() {
+        $.post(api,
+            {
+                action: 'list_TacGia'
+            },
+            function (data) {
+
+                var json = JSON.parse(data); //txt trong data -> obj json
+                console.log(json)
+                var noidung_ds_TG_html = "";
+
+                if (json.ok) {
+                    noidung_ds_TG_html += `<table class="w3-table-all w3-hoverable">
+                   <thead>
+                   <tr>
+                     <th>STT</th>
+                     <th>Mã Tác Giả</th>
+                     <th>Tên Tác Giả</th>
+                     
+                     <th>Sửa/xóa</th>
+                   </tr>
+                   </thead><tbody>`;
+                    //duyet json -> noidung_ds_cty_html xịn
+                    var stt = 0;
+
+                    for (var TG of json.data) {
+                        //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
+                        var sua_xoa = `<button class="w3-button w3-round nut-sua-xoa" data-cid="${TG.matacgia}" data-action="edit_TacGia">Sửa</button>`;
+                        sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" data-cid="${TG.matacgia}" data-action="delete_TacGia">Xóa</button>`;
+                        noidung_ds_TG_html += `
+                     <tr>
+                     <td>${++stt}</td>
+                  
+                     <td>${TG.matacgia}</td>
+                     <td>${TG.tentacgia}</td>
+                     
+                     <td>${sua_xoa}</td>
+                   </tr>`;
+                    }
+
+                    noidung_ds_TG_html += "</tbody></table>";
+                } else {
+
+                    noidung_ds_TG_html = "không có dữ liệu";
+                }
+                //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
+                $('#ds_TG').html(noidung_ds_TG_html); //gán html vào thân dialog
+
+                //trong html vừa đua vào có nhiều nút sửa và xóa, đều có class nut-sua-xoa
+                //selector này tóm đc mọi nút
+                $('.nut-sua-xoa').click(function () {
+                    //phân biệt các nút bằng data kèm theo
+                    var action = $(this).data('action')  //lấy action kèm theo
+                    var id = $(this).data('cid')  //lấy cid kèm theo
+                    if (action == 'delete_TacGia') { //dùng action
+                        //can xac nhan
+                        delete_TacGia(id, json); //dùng id vào đây để hàm này xử, cho khỏi rối code
+                    } else if (action == 'edit_TacGia') {
+                        //ko can xac nhan
+                        edit_TacGia(id, json);
+                    }
+
+                });
+            })
+    }
+    function add_TacGia() {
+        var content = `
+        Mã Tác Giả:  <input class="w3-input" type="text" id="nhap-matacgia" "><br>
+        Tên Tác Giả:  <input class="w3-input" type="text" id="nhap-tentacgia" "><br> 
+          
+                      `;
+        var dialog_add = $.confirm({
+            title: 'Thêm Tác Giả',
+            content: content,
+            columnClass: 'large',
+            boxWidth: '50%',
+            useBootstrap: false,
+
+            type: 'green',
+            buttons: {
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+
+                        var data_gui_di = {
+                            action: 'add_TacGia',
+
+                            matacgia: $('#nhap-matacgia').val(),
+                            tentacgia: $('#nhap-tentacgia').val(),
+                           
+
+                        };
+
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_add.close();
+                                cap_nhat_TacGia();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    }
+    function edit_TacGia(id, json) {
+        var TG;
+        for (var item of json.data) {
+            if (item.matacgia == id) {
+                TG = item;
+
+                break;
+            }
+        }
+        var content = `
+        
+      Tên Nhà Xuất bản:    <input class="w3-input" type="text" id="edit-tentacgia" value="${TG.tentacgia}"><br> 
+    `;
+
+        var dialog_edit = $.confirm({
+            title: 'Edit Tác Giả',
+            content: content,
+            /* columnClass: 'large',*/
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'green',
+
+            buttons: {
+
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'edit_TacGia',
+                            tentacgia: $('#edit-tentacgia').val(),
+                           
+                            matacgia: id,
+                        };
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_edit.close();
+                                cap_nhat_TacGia();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    }
+    function delete_TacGia(id, json) {
+        var TG;
+        for (var item of json.data) {
+            if (item.matacgia == id) {
+                TG = item;
+                break;
+            }
+        }
+        //xác nhận trước khi xóa
+        var dialog_xoa = $.confirm({
+            title: `Xác nhận xóa Tác Giả: ${TG.matacgia}`,
+            content: `Xác nhận xóa?`,
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'red',
+            buttons: {
+
+                YES: {
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'delete_TacGia',
+                            matacgia: id, //gửi đi id của sách xóa: api, sp sẽ làm phần còn lại
+                        }
+                        console.log(data_gui_di);
+                        $.post(api, data_gui_di, function (data) {
+                            //đợi data là json string text gửi về
+                            var json = JSON.parse(data); //json string text => obj
+                            if (json.ok) { //dùng obj
+                                dialog_xoa.close();
+                                alert('Xóa thành công!')
+                                cap_nhat_TacGia();  //vẽ lại kq mới
+                            } else {
+                                alert(json.msg) // lỗi gì ở trên lo, ta cứ show ra thôi
+                            }
+                        })
+                    }
+                },
+                NO: {
+
+                }
+            }
+        })
+    }
+    function list_TacGia() {
+        var dialog_list_NCC = $.confirm({
+            title: "Danh Sách Tác Giả",
+            content: `<div id="ds_TG">loading...</div>`,
+            columnClass: 'large',
+            buttons: {
+                add: {
+                    btnClass: 'btn-green',
+                    text: 'Thêm tác Giả',
+                    action: function () {
+                        add_TacGia();
+                        return false; // ko đóng dialog_list_company
+                    }
+                },
+                close: {
+
+                }
+            },
+            onContentReady: function () {
+                //alert('dialog show ok')
+                //hoi api: ds cong ty la json nao?
+                cap_nhat_TacGia(); //fill html vào thêm dialog tại div#ds_thuthu
+            }
+        });
+    }
+    $('#tacgia').click(function () {
+        list_TacGia();
+
+    });
+    /*----end Tác Giả---*/
+    /*----Mượn Sách----*/
+    function cap_nhat_MuonSach() {
+        $.post(api,
+            {
+                action: 'list_MuonSach'
+            },
+            function (data) {
+                alert(data)
+                var json = JSON.parse(data); //txt trong data -> obj json
+                console.log(json)
+                var noidung_ds_MuonSach_html = "";
+
+                if (json.ok) {
+                    noidung_ds_MuonSach_html += `<table class="w3-table-all w3-hoverable">
+                   <thead>
+                   <tr>
+                     <th>STT</th>
+                     <th>Mã Tác Giả</th>
+                     <th>Mã Sinh Viên</th>
+                     <th>ngày Mượn</th>
+                     <th>ngày Trả</th>
+                     <th>Mã Thủ Thư</th>
+                     <th>Sửa/xóa</th>
+                   </tr>
+                   </thead><tbody>`;
+                    //duyet json -> noidung_ds_cty_html xịn
+                    var stt = 0;
+
+                    for (var MuonSach of json.data) {
+                        //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
+                        var sua_xoa = `<button class="w3-button w3-round nut-sua-xoa" data-cid="${MuonSach.masach}"  data-action="edit_MuonSach">Sửa</button>`;
+                        sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" data-cid="${MuonSach.masach}" data-action="delete_MuonSach">Xóa</button>`;
+                        noidung_ds_MuonSach_html += `
+                     <tr>
+                     <td>${++stt}</td>
+                  
+                     <td>${MuonSach.masach}</td>
+                     <td>${MuonSach.masv}</td>
+                      <td>${MuonSach.ngaymuon}</td>
+                       <td>${MuonSach.ngaytra}</td>
+                        <td>${MuonSach.mathuthu}</td>
+                     
+                     <td>${sua_xoa}</td>
+                   </tr>`;
+                    }
+
+                    noidung_ds_MuonSach_html += "</tbody></table>";
+                } else {
+
+                    noidung_ds_MuonSach_html = "không có dữ liệu";
+                }
+                //đưa html vừa nối nối vào chỗ định trước: #ds_cong_ty
+                $('#ds_MuonSach').html(noidung_ds_MuonSach_html); //gán html vào thân dialog
+
+                //trong html vừa đua vào có nhiều nút sửa và xóa, đều có class nut-sua-xoa
+                //selector này tóm đc mọi nút
+                $('.nut-sua-xoa').click(function () {
+                    //phân biệt các nút bằng data kèm theo
+                    var action = $(this).data('action')  //lấy action kèm theo
+                    var id = $(this).data('cid')  //lấy cid kèm theo
+                    if (action == 'delete_MuonSach') { //dùng action
+                        //can xac nhan
+                        delete_MuonSach(id, json); //dùng id vào đây để hàm này xử, cho khỏi rối code
+                    } else if (action == 'edit_MuonSach') {
+                        //ko can xac nhan
+                        edit_MuonSach(id, json);
+                    }
+
+                });
+            })
+    }
+    function add_MuonSach() {
+        var content = `
+        Mã Sách:  <input class="w3-input" type="text" id="nhap-masach" "><br>
+        Mã Sinh Viên:  <input class="w3-input" type="text" id="nhap-masv" "><br> 
+        ngày Mượn:  <input class="w3-input" type="text" id="nhap-ngaymuon" "><br>
+          
+           Mã Thủ Thư:  <input class="w3-input" type="text" id="nhap-mathuthu" "><br>
+          
+                      `;
+        var dialog_add = $.confirm({
+            title: 'Thêm Mượn Sách',
+            content: content,
+            columnClass: 'large',
+            boxWidth: '50%',
+            useBootstrap: false,
+
+            type: 'green',
+            buttons: {
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+
+                        var data_gui_di = {
+                            action: 'add_MuonSach',
+
+                            masach: $('#nhap-masach').val(),
+                            masv: $('#nhap-masv').val(),
+                            ngaymuon: $('#nhap-ngaymuon').val(),
+                            /*ngaytra: $('#nhap-ngaytra').val(),*/
+                            mathuthu: $('#nhap-mathuthu').val(),
+
+
+                        };
+
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_add.close();
+                                cap_nhat_MuonSach();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    }
+    function edit_MuonSach(id, json) {
+        var MuonSach;
+        for (var item of json.data) {
+            if (item.masach == id) {
+                MuonSach= item;
+
+                break;
+            }
+        }
+        var content = `
+        
+      Mã Sinh Viên:    <input class="w3-input" type="text" id="edit-masv" value="${MuonSach.masv}"><br> 
+      Ngày Mượn :    <input class="w3-input" type="text" id="edit-ngaymuon" value="${MuonSach.ngaymuon}"><br> 
+      Ngày Trả:    <input class="w3-input" type="text" id="edit-ngaytra" value="${MuonSach.ngaytra}"><br> 
+      Mã Thủ Thư:    <input class="w3-input" type="text" id="edit-mathuthu" value="${MuonSach.mathuthu}"><br> 
+    `;
+
+        var dialog_edit = $.confirm({
+            title: 'Edit Mượn Sách',
+            content: content,
+            /* columnClass: 'large',*/
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'green',
+
+            buttons: {
+
+                save: {
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'edit_MuonSach',
+                            masv: $('#edit-masv').val(),
+                            ngaymuon: $('#edit-ngaymuon').val(),
+                            ngaytra: $('#edit-ngaytra').val(),
+                            mathuthu: $('#edit-mathuthu').val(),
+
+
+                            masach: id,
+                        };
+
+                        console.log(data_gui_di);
+
+                        $.post(api, data_gui_di, function (data) {
+                            var json = JSON.parse(data);
+                            if (json.ok) {
+                                dialog_edit.close();
+                                cap_nhat_MuonSach();
+                            } else {
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                },
+                close: function () {
+                }
+            }
+        });
+    }
+    function delete_MuonSach(id, json) {
+        var MuonSach;
+        for (var item of json.data) {
+            if (item.masach == id) {
+                MuonSach = item;
+                break;
+            }
+        }
+        //xác nhận trước khi xóa
+        var dialog_xoa = $.confirm({
+            title: `Xác nhận Mượn Sách: ${MuonSach.masach}`,
+            content: `Xác nhận xóa?`,
+            boxWidth: '50%',
+            useBootstrap: false,
+            type: 'red',
+            buttons: {
+
+                YES: {
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var data_gui_di = {
+                            action: 'delete_MuonSach',
+                            masach: id, //gửi đi id của sách xóa: api, sp sẽ làm phần còn lại
+                        }
+                        console.log(data_gui_di);
+                        $.post(api, data_gui_di, function (data) {
+                            //đợi data là json string text gửi về
+                            var json = JSON.parse(data); //json string text => obj
+                            if (json.ok) { //dùng obj
+                                dialog_xoa.close();
+                                alert('Xóa thành công!')
+                                cap_nhat_MuonSach();  //vẽ lại kq mới
+                            } else {
+                                alert(json.msg) // lỗi gì ở trên lo, ta cứ show ra thôi
+                            }
+                        })
+                    }
+                },
+                NO: {
+
+                }
+            }
+        })
+    }
+    function list_MuonSach() {
+        var dialog_list_NCC = $.confirm({
+            title: "Danh Sách mượn sách",
+            content: `<div id="ds_MuonSach">loading...</div>`,
+            columnClass: 'large',
+            buttons: {
+                add: {
+                    btnClass: 'btn-green',
+                    text: 'Thêm Mượn Sách',
+                    action: function () {
+                        add_MuonSach();
+                        return false; // ko đóng dialog
+                    }
+                },
+                close: {
+
+                }
+            },
+            onContentReady: function () {
+                //alert('dialog show ok')
+                //hoi api: ds cong ty la json nao?
+                cap_nhat_MuonSach(); //fill html vào thêm dialog tại div#ds_thuthu
+            }
+        });
+    }
+    $('#muonsach').click(function () {
+        list_MuonSach();
+
+    });
+   /*---- END Mượn Sách----*/
 })
 
 

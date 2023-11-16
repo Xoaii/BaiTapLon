@@ -168,7 +168,6 @@ namespace BTL
                 case "add_NCC":
                 case "edit_NCC":
 
-                    
                     cm.Parameters.Add("@tenncc", SqlDbType.NVarChar, 100).Value = Request["tenncc"];
                     cm.Parameters.Add("@diachi", SqlDbType.NVarChar,100).Value = Request["diachi"];
                     cm.Parameters.Add("@sdt", SqlDbType.NVarChar,50).Value = Request["sdt"];
@@ -184,6 +183,106 @@ namespace BTL
                 case "edit_NCC":
                 case "delete_NCC":
                     cm.Parameters.Add("@mancc", SqlDbType.NVarChar, 100).Value = Request["mancc"];
+                    break;
+            }
+
+            //thuc thi
+            string json = (string)db.Scalar(cm);
+            Response.Write(json);
+        }
+        void xuly_NXB(string action)
+        {
+            //kb db .. tv sp action
+            SqlServer db = new SqlServer();
+            SqlCommand cm = db.GetCmd("SP_nhaXB", action);
+
+            switch (action)
+            {
+                case "add_nhaXB":
+                case "edit_nhaXB":
+
+                    cm.Parameters.Add("@tennxb", SqlDbType.NVarChar, 100).Value = Request["tennxb"];
+                    cm.Parameters.Add("@diachi", SqlDbType.NVarChar, 100).Value = Request["diachi"];
+                    cm.Parameters.Add("@sdt", SqlDbType.NVarChar, 50).Value = Request["sdt"];
+                    ;
+
+                    break;
+
+            }
+
+            switch (action)
+            {
+                case "add_nhaXB":
+                case "edit_nhaXB":
+                case "delete_nhaXB":
+                    cm.Parameters.Add("@manxb", SqlDbType.NVarChar, 100).Value = Request["manxb"];
+                    break;
+            }
+
+            //thuc thi
+            string json = (string)db.Scalar(cm);
+            Response.Write(json);
+        }
+        void xuly_TacGia(string action)
+        {
+            //kb db .. tv sp action
+            SqlServer db = new SqlServer();
+            SqlCommand cm = db.GetCmd("SP_TacGia", action);
+
+            switch (action)
+            {
+                case "add_TacGia":
+                case "edit_TacGia":
+
+                    cm.Parameters.Add("@tentacgia", SqlDbType.NVarChar, 100).Value = Request["tentacgia"];
+                    break;
+
+            }
+
+            switch (action)
+            {
+                case "add_TacGia":
+                case "edit_TacGia":
+                case "delete_TacGia":
+                    cm.Parameters.Add("@matacgia", SqlDbType.NVarChar, 100).Value = Request["matacgia"];
+                    break;
+            }
+
+            //thuc thi
+            string json = (string)db.Scalar(cm);
+            Response.Write(json);
+        }
+        void xuly_MuonSach(string action)
+        {
+            //kb db .. tv sp action
+            SqlServer db = new SqlServer();
+            SqlCommand cm = db.GetCmd("SP_MuonSach", action);
+
+            switch (action)
+            {
+                case "add_MuonSach":
+                    cm.Parameters.Add("@ngaymuon", SqlDbType.DateTime, 100).Value = Request["ngaymuon"];
+               
+                    cm.Parameters.Add("@mathuthu", SqlDbType.NVarChar, 100).Value = Request["mathuthu"];
+
+                    break;
+                case "edit_MuonSach":
+                    cm.Parameters.Add("@ngaymuon", SqlDbType.DateTime, 100).Value = Request["ngaymuon"];
+                    cm.Parameters.Add("@ngaytra", SqlDbType.DateTime, 100).Value = Request["ngaytra"];
+                    cm.Parameters.Add("@mathuthu", SqlDbType.NVarChar, 100).Value = Request["mathuthu"];
+
+                    break;
+
+            }
+
+            switch (action)
+            {
+                case "add_MuonSach":
+                case "edit_MuonSach":
+                case "delete_MuonSach":
+                    cm.Parameters.Add("@masach", SqlDbType.NVarChar, 100).Value = Request["masach"];
+                    cm.Parameters.Add("@masv", SqlDbType.NVarChar, 100).Value = Request["masv"];
+
                     break;
             }
 
@@ -229,6 +328,24 @@ namespace BTL
                 case "edit_NCC":
                 case "delete_NCC":
                     xuly_NCC(action);
+                    break;
+                case "list_nhaXB":
+                case "add_nhaXB":
+                case "edit_nhaXB":
+                case "delete_nhaXB":
+                    xuly_NXB(action);  
+                    break;
+                case "list_TacGia":
+                case "add_TacGia":
+                case "edit_TacGia":
+                case "delete_TacGia":
+                    xuly_TacGia(action);
+                    break;
+                case "list_MuonSach":
+                case "add_MuonSach":
+                case "edit_MuonSach":
+                case "delete_MuonSach":
+                    xuly_MuonSach(action);
                     break;
             }
         }
