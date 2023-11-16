@@ -3,7 +3,7 @@
     giao_dien_animation()
     
     const api = '/api.aspx';
-    list_Sach();
+    /*list_Sach();*/
     function delete_SinhVien(id, json) {
         var SinhVien;
         for (var item of json.data) {
@@ -2229,7 +2229,7 @@
                    <tr>
                      <th>STT</th>
                      <th>Mã Phiếu Nhập</th>
-                     <th>Ngày Nhập</th>
+                     <th>Nhà Cung Cấp</th>
                     
                      <th>Sửa/xóa</th>
                    </tr>
@@ -2241,7 +2241,7 @@
                         //sua_xoa là 2 nút: mỗi nút kèm theo data để sau này phân loại: là data-cid  và data-action
                         var sua_xoa = `<button class="w3-button w3-round nut-sua-xoa" data-cid="${PhieuNhap.maphieunhap}"  data-action="edit_PhieuNhap">Sửa</button>`;
                         sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" data-cid="${PhieuNhap.maphieunhap}" data-action="delete_PhieuNhap">Xóa</button>`;
-                        sua_xoa += ` <button class="w3-button w3-round nut-sua-xoa" id="nut-chi-tiet"data-cid="${PhieuNhap.maphieunhap}" data-action="more_PhieuNhap">Chi Tiết</button>`;
+                       
                         noidung_ds_PhieuNhap_html += `
                      <tr>
                      <td>${++stt}</td>
@@ -2724,7 +2724,14 @@
 
 
     });
-/*----end CHi tiết phiếu nhập----*/
+    /*----end CHi tiết phiếu nhập----*/
+    $('#dangxuat').click(function () {
+        //phân biệt các nút bằng data kèm theo
+        alert('iem chưa làm được phần đăng nhập ạ huhu :(');
+
+
+
+    });
 
 })
 
