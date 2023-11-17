@@ -89,7 +89,6 @@
                             action: 'edit_SinhVien',
 
                             hoten: $('#edit-hoten').val(),
-
                             gioitinh: $('[name="gioitinh"]:checked').val(),
                             diachi: $('#edit-diachi').val(),
                             ngaysinh: $('#edit-ngaysinh').val(),
@@ -789,9 +788,11 @@
     }
     function list_DauSach() {
         var dialog_list_Dausach = $.confirm({
-            title: "Danh Sách đầu sách",
+            title: "Danh Sách Đầu Sách",
             content: `<div id="ds_dausach">loading...</div>`,
             columnClass: 'large',
+            boxWidth: '50%',
+            useBootstrap: false,
             buttons: {
                 add: {
                     btnClass: 'btn-green',
@@ -2200,7 +2201,7 @@
                 }
             },
             onContentReady: function () {
-                //alert('dialog show ok')
+                
                 //hoi api: ds cong ty la json nao?
                 cap_nhat_MuonSach(); //fill html vào thêm dialog tại div#ds_thuthu
             }
@@ -2230,7 +2231,7 @@
                      <th>STT</th>
                      <th>Mã Phiếu Nhập</th>
                      <th>Nhà Cung Cấp</th>
-                    
+                    <th>Ngày Tháng</th>
                      <th>Sửa/xóa</th>
                    </tr>
                    </thead><tbody>`;
