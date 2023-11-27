@@ -375,7 +375,7 @@
                      <th>Mã Tác Giả</th>
                      <th>Trạng Thái</th>
                      <th>Mã Đầu Sách</th>
-                  
+                     <th>Khoa</th>
                      <th>Sửa/xóa</th>
                    </tr>
                    </thead><tbody>`;
@@ -394,6 +394,7 @@
                      <td>${Sach.matacgia}</td>
                      <td>${Sach.trangthai}</td>
                      <td>${Sach.madausach}</td>
+                     <td>${Sach.khoa}</td>
 
                      <td>${sua_xoa}</td>
                    </tr>`;
@@ -433,6 +434,7 @@
         Mã Tác Giả: <input class="w3-input" type="text" id="nhap-matacgia" ><br>
         Trạng Thái:<input class="w3-input" type="text" id="nhap-trangthai" ><br>
         Mã Đầu Sách:       <input class="w3-input" type="text" id="nhap-madausach" ><br> 
+        Khoa:       <input class="w3-input" type="text" id="nhap-khoa" ><br> 
         
     `;
 
@@ -458,6 +460,7 @@
                             matacgia: $('#nhap-matacgia').val(),
                             trangthai: $('#nhap-trangthai').val(),
                             madausach: $('#nhap-madausach').val(),
+                            khoa: $('#nhap-khoa').val(),
                            
                         };
 
@@ -505,7 +508,8 @@
         Mã NXB: <input class="w3-input" type="text" id="edit-manxb" value="${Sach.manxb}"><br> 
         Mã Tác Giả:      <input class="w3-input" type="text" id="edit-matacgia" value="${Sach.matacgia}"><br> 
         Trạng Thái:       <input class="w3-input" type="text" id="edit-trangthai" value="${Sach.trangthai}"><br> 
-        Mã Đầu Sách:     <input class="w3-input" type="text" id="edit-madausach" value="${Sach.madausach}"><br> `;
+        Mã Đầu Sách:     <input class="w3-input" type="text" id="edit-madausach" value="${Sach.madausach}"><br> 
+         Khoa:     <input class="w3-input" type="text" id="edit-khoa" value="${Sach.khoa}"><br> `;
 
         var dialog_edit = $.confirm({
             title: 'Sửa Sách',
@@ -525,6 +529,7 @@
                             matacgia: $('#edit-matacgia').val(),
                             trangthai: $('#edit-trangthai').val(),
                             madausach: $('#edit-madausach').val(),
+                            khoa: $('#edit-khoa').val(),
                             masach: id,
                         };
 
@@ -610,6 +615,7 @@
         $.post(api, {
             action: 'search_Sach',
             tensach: $('#timkiemsach').val(),
+           
             boxWidth: '50%',
             useBootstrap: false,
         }, function (data) {
@@ -629,6 +635,7 @@
                  <th>Mã Tác Giả</th>
                  <th>Trạng Thái</th>
                  <th>Mã Đầu Sách</th>
+                 <th>Khoa</th>
                  <th>Sửa/xóa</th>
                </tr>
                </thead><tbody>`;
@@ -645,6 +652,7 @@
                  <td>${Sach.matacgia}</td>
                  <td>${Sach.trangthai}</td>
                  <td>${Sach.madausach}</td>
+                 <td>${Sach.khoa}</td>
                  <td>${sua_xoa}</td>
                </tr>`;
                 }

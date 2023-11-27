@@ -66,9 +66,7 @@ namespace BTL
                     cm.Parameters.Add("@matacgia", SqlDbType.NVarChar, 100).Value = Request["matacgia"];
                     cm.Parameters.Add("@trangthai", SqlDbType.NVarChar, 100).Value = Request["trangthai"];
                     cm.Parameters.Add("@madausach", SqlDbType.NVarChar, 100).Value = Request["madausach"];
-                 
-                
-
+                    cm.Parameters.Add("@khoa", SqlDbType.NVarChar, 50).Value = Request["khoa"];
                     break;
 
             }
@@ -82,6 +80,7 @@ namespace BTL
                     break;
                 case "search_Sach":
                     cm.Parameters.Add("@tensach", SqlDbType.NVarChar, 100).Value = Request["tensach"];
+                    cm.Parameters.Add("@khoa", SqlDbType.NVarChar, 50).Value = Request["khoa"];
                     break;
             }
 
@@ -101,8 +100,6 @@ namespace BTL
                 case "edit_DauSach":
                    
                     cm.Parameters.Add("@soluong", SqlDbType.Int, 100).Value = Request["soluong"];
-
-
 
                     break;
 
